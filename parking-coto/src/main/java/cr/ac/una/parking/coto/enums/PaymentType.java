@@ -9,5 +9,7 @@ package cr.ac.una.parking.coto.enums;
  * @author Ashly
  */
 public enum PaymentType {
-    
+    CASH,
+    CARD,
+    SINPE_MOVIL
 }
