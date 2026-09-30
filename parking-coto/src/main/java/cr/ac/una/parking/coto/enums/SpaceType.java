@@ -1,15 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
- */
 package cr.ac.una.parking.coto.enums;
 
 /**
+ * Categories of parking spaces managed by the system.
  *
- * @author Ashly
+ * @author Carolain Quesada and Ashly Delgado
+ * @version 1.0
  */
 public enum SpaceType {
-     MOTORCYCLE,
+    /** Space reserved for motorcycles. */
+    MOTORCYCLE,
+    /** Space reserved for passenger cars. */
     CAR,
-    FREIGHT  
+    /** Space reserved for freight vehicles. */
+    FREIGHT
 }

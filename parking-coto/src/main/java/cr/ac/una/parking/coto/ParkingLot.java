@@ -20,15 +20,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Coordinates the parking lot operations and acts as the main orchestrator of
+ * the business flow.
+ *
+ * <p>This class manages the collections of registered vehicles, parking spaces,
+ * tickets, and payments, and validates the rules that define a valid entry,
+ * exit, and billing process. It centralizes the operational logic of the
+ * parking system without storing the business rules inside the UI or the
+ * vehicle classes themselves.</p>
+ *
+ * <p>The instance keeps the system state in memory using maps and lists, and it
+ * is responsible for enforcing the business invariants of the project, such as
+ * duplicate registrations, incompatible spaces, active-ticket checks, and total
+ * income accounting.</p>
+ *
+ * @author Carolain Quesada and Ashly Delgado
+ * @version 1.0
+ */
 public class ParkingLot {
 
+    /** Stores vehicles by plate for unique registration validation. */
     private final Map<String, Vehicle> vehicles;
+    /** Stores parking spaces by their numeric identifier. */
     private final Map<Integer, ParkingSpace> spaces;
+    /** Tracks the ticket history and active ticket state. */
     private final List<ParkingTicket> tickets;
+    /** Records each completed payment. */
     private final List<Payment> payments;
+    /** Sequential identifier for parking tickets. */
     private long nextTicketId;
+    /** Sequential identifier for payments. */
     private long nextPaymentId;
 
+    /**
+     * Creates a new empty parking lot with empty registries.
+     */
     public ParkingLot() {
         this.vehicles = new HashMap<String, Vehicle>();
         this.spaces = new HashMap<Integer, ParkingSpace>();
@@ -38,6 +65,13 @@ public class ParkingLot {
         this.nextPaymentId = 1L;
     }
 
+    /**
+     * Registers a new vehicle in the parking lot if the plate is unique.
+     *
+     * @param vehicle vehicle to register
+     * @throws ParkingException if the vehicle reference is null
+     * @throws DuplicateRecordException if a vehicle with the same plate exists
+     */
     public void registerVehicle(Vehicle vehicle) {
         if (vehicle == null) {
             throw new ParkingException("El vehículo no puede ser nulo");
@@ -48,6 +82,13 @@ public class ParkingLot {
         vehicles.put(vehicle.getPlate(), vehicle);
     }
 
+    /**
+     * Registers a parking space if its identifier is unique.
+     *
+     * @param space parking space to register
+     * @throws ParkingException if the space reference is null
+     * @throws DuplicateRecordException if the same numeric identifier already exists
+     */
     public void registerSpace(ParkingSpace space) {
         if (space == null) {
             throw new ParkingException("El espacio no puede ser nulo");
@@ -58,6 +99,11 @@ public class ParkingLot {
         spaces.put(space.getNumber(), space);
     }
 
+    /**
+     * Returns the set of currently available parking spaces.
+     *
+     * @return read-only list of free spaces
+     */
     public List<ParkingSpace> getAvailableSpaces() {
         List<ParkingSpace> availableSpaces = new ArrayList<ParkingSpace>();
         for (ParkingSpace space : spaces.values()) {
@@ -68,6 +114,18 @@ public class ParkingLot {
         return Collections.unmodifiableList(availableSpaces);
     }
 
+    /**
+     * Registers a vehicle entry by automatically assigning a compatible empty
+     * space and creating an active ticket.
+     *
+     * @param vehicle registered vehicle entering the parking lot
+     * @param entryTime entry timestamp
+     * @return the generated ticket for the entry
+     * @throws ParkingException if the vehicle is null or invalid
+     * @throws RecordNotFoundException if the vehicle is not registered
+     * @throws ActiveTicketException if the vehicle already has an active ticket
+     * @throws SpaceNotAvailableException if no compatible space is available
+     */
     public ParkingTicket registerEntry(Vehicle vehicle, LocalDateTime entryTime) {
         if (vehicle == null) {
             throw new ParkingException("El vehículo no puede ser nulo");
@@ -93,6 +151,20 @@ public class ParkingLot {
         return ticket;
     }
 
+    /**
+     * Registers a vehicle entry in a specific parking space selected by the
+     * caller.
+     *
+     * @param vehicle vehicle entering the parking lot
+     * @param space requested parking space
+     * @param entryTime entry timestamp
+     * @return generated ticket for the entry
+     * @throws ParkingException if any required argument is null
+     * @throws RecordNotFoundException if the vehicle or space is not registered
+     * @throws ActiveTicketException if the vehicle already has an active ticket
+     * @throws SpaceNotAvailableException if the space is occupied, incompatible,
+     *         or not usable
+     */
     public ParkingTicket registerEntry(Vehicle vehicle, ParkingSpace space, LocalDateTime entryTime) {
         if (vehicle == null) {
             throw new ParkingException("El vehículo no puede ser nulo");
@@ -126,6 +198,15 @@ public class ParkingLot {
         return ticket;
     }
 
+    /**
+     * Closes the active ticket for a vehicle and releases the assigned space.
+     *
+     * @param vehicle vehicle leaving the parking lot
+     * @param exitTime exit timestamp
+     * @return the closed parking ticket
+     * @throws ParkingException if the vehicle reference is null
+     * @throws ActiveTicketException if there is no active ticket for the vehicle
+     */
     public ParkingTicket registerExit(Vehicle vehicle, LocalDateTime exitTime) {
         if (vehicle == null) {
             throw new ParkingException("El vehículo no puede ser nulo");
@@ -139,6 +220,17 @@ public class ParkingLot {
         return activeTicket;
     }
 
+    /**
+     * Records the payment for a ticket that is already closed and not paid.
+     *
+     * @param ticket ticket to be paid
+     * @param paymentType form of payment used by the customer
+     * @param paymentDateTime date and time when the payment was made
+     * @return generated payment record
+     * @throws ParkingException if required arguments are null
+     * @throws RecordNotFoundException if the ticket is not registered in the lot
+     * @throws InvalidTicketStateException if the ticket is active or already paid
+     */
     public Payment registerPayment(ParkingTicket ticket, PaymentType paymentType, LocalDateTime paymentDateTime) {
         if (ticket == null) {
             throw new ParkingException("El ticket no puede ser nulo");
@@ -173,6 +265,11 @@ public class ParkingLot {
         return payment;
     }
 
+    /**
+     * Returns the list of tickets that are still active.
+     *
+     * @return read-only list with the active tickets
+     */
     public List<ParkingTicket> getActiveTickets() {
         List<ParkingTicket> activeTickets = new ArrayList<ParkingTicket>();
         for (ParkingTicket ticket : tickets) {
@@ -183,6 +280,12 @@ public class ParkingLot {
         return Collections.unmodifiableList(activeTickets);
     }
 
+    /**
+     * Returns the vehicles that are currently inside the parking lot.
+     *
+     * @return read-only list of vehicles that still have an active or recently
+     *         closed ticket in process
+     */
     public List<Vehicle> getVehiclesInside() {
         List<Vehicle> vehiclesInside = new ArrayList<Vehicle>();
         for (ParkingTicket ticket : tickets) {
@@ -193,6 +296,11 @@ public class ParkingLot {
         return Collections.unmodifiableList(vehiclesInside);
     }
 
+    /**
+     * Calculates the total income received from all payment records.
+     *
+     * @return accumulated revenue for completed payments
+     */
     public double getTotalIncome() {
         double total = 0.0;
         for (Payment payment : payments) {
@@ -201,6 +309,11 @@ public class ParkingLot {
         return total;
     }
 
+    /**
+     * Counts how many spaces are occupied by each space type.
+     *
+     * @return map with the quantity of occupied spaces per space type
+     */
     public Map<SpaceType, Integer> getOccupancyByType() {
         Map<SpaceType, Integer> occupancy = new HashMap<SpaceType, Integer>();
         for (ParkingSpace space : spaces.values()) {
@@ -216,6 +329,11 @@ public class ParkingLot {
         return occupancy;
     }
 
+    /**
+     * Counts all non-out-of-service spaces in the parking lot.
+     *
+     * @return number of usable spaces
+     */
     public int countUsableSpaces() {
         int count = 0;
         for (ParkingSpace space : spaces.values()) {
@@ -226,6 +344,12 @@ public class ParkingLot {
         return count;
     }
 
+    /**
+     * Finds the first compatible space that is currently available.
+     *
+     * @param vehicle vehicle requiring an available compatible space
+     * @return a compatible free space, or {@code null} if no match exists
+     */
     private ParkingSpace findCompatibleSpace(Vehicle vehicle) {
         for (ParkingSpace space : spaces.values()) {
             if (space.isCompatibleWith(vehicle) && space.isAvailable()) {
@@ -235,6 +359,12 @@ public class ParkingLot {
         return null;
     }
 
+    /**
+     * Finds an active ticket for the specified vehicle.
+     *
+     * @param vehicle vehicle being checked
+     * @return the active ticket if one exists; otherwise {@code null}
+     */
     private ParkingTicket findActiveTicket(Vehicle vehicle) {
         for (ParkingTicket ticket : tickets) {
             if (ticket.getVehicle().getPlate().equals(vehicle.getPlate())

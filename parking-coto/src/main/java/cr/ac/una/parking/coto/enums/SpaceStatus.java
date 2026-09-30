@@ -1,15 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
- */
 package cr.ac.una.parking.coto.enums;
 
 /**
+ * Lifecycle states of each parking space.
  *
- * @author Ashly
+ * @author Carolain Quesada and Ashly Delgado
+ * @version 1.0
  */
 public enum SpaceStatus {
+    /** Parking space is available for a vehicle. */
     AVAILABLE,
+    /** Parking space is currently occupied. */
     OCCUPIED,
+    /** Parking space is temporarily unavailable for service. */
     OUT_OF_SERVICE
 }

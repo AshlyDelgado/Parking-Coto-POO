@@ -1,15 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.parking.coto.exception;
 
 /**
+ * Thrown when a ticket operation is attempted outside its valid lifecycle state.
  *
- * @author Ashly
+ * @author Carolain Quesada and Ashly Delgado
+ * @version 1.0
  */
 public class InvalidTicketStateException extends ParkingException {
 
+    /**
+     * Creates the exception with a detailed lifecycle-message.
+     *
+     * @param message business-rule validation message
+     */
     public InvalidTicketStateException(String message) {
         super(message);
     }

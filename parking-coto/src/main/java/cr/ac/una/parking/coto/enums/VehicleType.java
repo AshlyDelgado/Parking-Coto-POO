@@ -1,15 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
- */
 package cr.ac.una.parking.coto.enums;
 
 /**
+ * Supported vehicle categories in the parking system.
  *
- * @author Ashly
+ * @author Carolain Quesada and Ashly Delgado
+ * @version 1.0
  */
 public enum VehicleType {
+    /** Motorcycles are assigned to motorcycle spaces. */
     MOTORCYCLE,
+    /** Cars are assigned to passenger-car spaces. */
     CAR,
-    FREIGHT  
+    /** Freight vehicles require freight spaces. */
+    FREIGHT
 }

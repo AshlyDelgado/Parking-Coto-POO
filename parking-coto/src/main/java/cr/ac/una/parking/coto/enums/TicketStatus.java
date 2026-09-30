@@ -1,15 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
- */
 package cr.ac.una.parking.coto.enums;
 
 /**
+ * Lifecycle states of a parking ticket.
  *
- * @author Ashly
+ * @author Carolain Quesada and Ashly Delgado
+ * @version 1.0
  */
 public enum TicketStatus {
+    /** The ticket is currently active and the vehicle remains in the lot. */
     ACTIVE,
+    /** The ticket has been closed after the vehicle leaves. */
     CLOSED,
+    /** The ticket has been paid and settled. */
     PAID
 }

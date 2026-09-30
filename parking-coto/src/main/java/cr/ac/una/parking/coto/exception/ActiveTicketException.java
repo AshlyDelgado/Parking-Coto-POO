@@ -1,15 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.parking.coto.exception;
 
 /**
+ * Thrown when a vehicle attempts to register a second active ticket.
  *
- * @author Ashly
+ * @author Carolain Quesada and Ashly Delgado
+ * @version 1.0
  */
 public class ActiveTicketException extends ParkingException {
 
+    /**
+     * Creates the exception with the associated business-rule message.
+     *
+     * @param message description of why the operation is invalid
+     */
     public ActiveTicketException(String message) {
         super(message);
     }

@@ -1,15 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cr.ac.una.parking.coto.exception;
 
 /**
+ * Base runtime exception for all business-rule violations in the parking lot.
  *
- * @author Ashly
+ * @author Carolain Quesada and Ashly Delgado
+ * @version 1.0
  */
 public class ParkingException extends RuntimeException {
 
+    /**
+     * Creates the exception with the validation message.
+     *
+     * @param message descriptive message for the rule violation
+     */
     public ParkingException(String message) {
         super(message);
     }
