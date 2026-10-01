@@ -1,6 +1,7 @@
 package cr.ac.una.parking.coto;
 
 import cr.ac.una.parking.coto.enums.PaymentType;
+import cr.ac.una.parking.coto.enums.SpaceStatus;
 import cr.ac.una.parking.coto.enums.SpaceType;
 import cr.ac.una.parking.coto.enums.TicketStatus;
 import cr.ac.una.parking.coto.exception.ActiveTicketException;
@@ -16,7 +17,7 @@ import cr.ac.una.parking.coto.model.Vehicle;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -386,9 +387,9 @@ public class ParkingLot {
      * @return map with the quantity of occupied spaces per space type
      */
     public Map<SpaceType, Integer> getOccupancyByType() {
-        Map<SpaceType, Integer> occupancy = new HashMap<SpaceType, Integer>();
+        Map<SpaceType, Integer> occupancy = new EnumMap<SpaceType, Integer>(SpaceType.class);
         for (ParkingSpace space : spaces.values()) {
-            if (space.getStatus() == cr.ac.una.parking.coto.enums.SpaceStatus.OCCUPIED) {
+            if (space.getStatus() == SpaceStatus.OCCUPIED) {
                 Integer actual = occupancy.get(space.getType());
                 if (actual == null) {
                     occupancy.put(space.getType(), 1);

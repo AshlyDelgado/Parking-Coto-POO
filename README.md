@@ -39,7 +39,7 @@ Con `--markdown` en lugar de `--console` imprime los casos como tabla Markdown, 
 mvn test
 ```
 
-Con NetBeans: clic derecho sobre el proyecto y *Test*. Resultado esperado: 38 pruebas, 0 fallos.
+Con NetBeans: clic derecho sobre el proyecto y *Test*. Resultado esperado: 60 pruebas, 0 fallos.
 
 ## Cómo usar la interfaz en una demostración
 
@@ -119,7 +119,7 @@ Cada constante tiene `getDisplayName()` con su nombre en español, que es el que
 
 ## Pruebas
 
-38 pruebas JUnit y 19 casos de demostración (los 15 obligatorios del enunciado más 4 adicionales). El detalle, con entrada, resultado esperado y resultado obtenido, está en [docs/tabla-pruebas.md](docs/tabla-pruebas.md).
+60 pruebas JUnit y 19 casos de demostración (los 15 obligatorios del enunciado más 4 adicionales). El detalle, con entrada, resultado esperado y resultado obtenido, está en [docs/tabla-pruebas.md](docs/tabla-pruebas.md).
 
 ## Diagrama UML
 
