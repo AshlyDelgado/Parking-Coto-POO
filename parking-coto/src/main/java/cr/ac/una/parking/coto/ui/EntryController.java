@@ -72,11 +72,6 @@ public class EntryController implements Refreshable {
     }
 
     @FXML
-    private void onNow() {
-        entryTime.setNow();
-    }
-
-    @FXML
     private void onRegisterEntry() {
         try {
             Vehicle vehicle = vehicleCombo.getValue();

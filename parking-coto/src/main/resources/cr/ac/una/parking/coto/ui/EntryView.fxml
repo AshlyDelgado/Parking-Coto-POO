@@ -31,9 +31,9 @@
                      <children>
                         <DatePicker fx:id="datePicker" prefWidth="160.0" />
                         <TextField fx:id="timeField" prefWidth="80.0" promptText="HH:mm" />
-                        <Button mnemonicParsing="false" onAction="#onNow" styleClass="ghost-button" text="Ahora" />
                      </children>
                   </HBox>
+                  <Label styleClass="hint" text="Hora en formato de 24 horas: 00:00 es la medianoche y 12:00 es el mediodía." />
                   <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onRegisterEntry" styleClass="primary-button" text="Registrar ingreso" />
                </children>
             </VBox>

@@ -17,18 +17,18 @@
       </VBox>
       <HBox spacing="16.0">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="card">
+            <VBox minWidth="-Infinity" spacing="4.0" styleClass="card">
                <children>
-                  <Label styleClass="card-title" text="Ingresos totales" />
-                  <Label fx:id="incomeLabel" styleClass="kpi-value-small" />
+                  <Label minWidth="-Infinity" styleClass="kpi-label" text="Ingresos totales" />
+                  <Label fx:id="incomeLabel" minWidth="-Infinity" styleClass="kpi-value-small" />
                </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="10.0" styleClass="card" HBox.hgrow="ALWAYS">
+            </VBox>
+            <VBox maxWidth="Infinity" spacing="4.0" styleClass="card" HBox.hgrow="ALWAYS">
                <children>
-                  <Label styleClass="card-title" text="Ocupación por tipo (ocupados/total)" />
-                  <Label fx:id="occupancyLabel" styleClass="kpi-value-small" />
+                  <Label minWidth="-Infinity" styleClass="kpi-label" text="Ocupación por tipo de espacio (ocupados/total)" />
+                  <Label fx:id="occupancyLabel" minWidth="-Infinity" styleClass="kpi-value-small" />
                </children>
-            </HBox>
+            </VBox>
          </children>
       </HBox>
       <VBox styleClass="card" VBox.vgrow="ALWAYS">

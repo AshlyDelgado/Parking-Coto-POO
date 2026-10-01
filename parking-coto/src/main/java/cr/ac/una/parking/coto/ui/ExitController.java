@@ -67,11 +67,6 @@ public class ExitController implements Refreshable {
     }
 
     @FXML
-    private void onNow() {
-        exitTime.setNow();
-    }
-
-    @FXML
     private void onQuickExit(ActionEvent event) {
         try {
             Vehicle vehicle = vehicleCombo.getValue();

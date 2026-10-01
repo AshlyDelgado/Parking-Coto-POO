@@ -73,11 +73,6 @@ public class PaymentController implements Refreshable {
     }
 
     @FXML
-    private void onNow() {
-        paymentTime.setNow();
-    }
-
-    @FXML
     private void onRegisterPayment() {
         try {
             ParkingTicket ticket = ticketCombo.getValue();
