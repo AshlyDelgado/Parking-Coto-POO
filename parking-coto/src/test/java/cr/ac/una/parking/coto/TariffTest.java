@@ -1,6 +1,7 @@
 package cr.ac.una.parking.coto;
 
 import cr.ac.una.parking.coto.enums.SpaceType;
+import cr.ac.una.parking.coto.exception.ParkingException;
 import cr.ac.una.parking.coto.model.Car;
 import cr.ac.una.parking.coto.model.FreightVehicle;
 import cr.ac.una.parking.coto.model.Motorcycle;
@@ -11,8 +12,20 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TariffTest {
+
+    @Test
+    void shouldRejectAnInvalidExitTimeWhenCalculating() {
+        LocalDateTime entry = LocalDateTime.of(2026, 9, 30, 8, 0);
+        ParkingTicket ticket = new ParkingTicket(1L, car, new ParkingSpace(1, SpaceType.CAR), entry);
+
+        assertThrows(ParkingException.class, () -> ticket.calculateChargedHours(null));
+        assertThrows(ParkingException.class, () -> ticket.calculateStayMinutes(null));
+        assertThrows(ParkingException.class, () -> ticket.calculateChargedHours(entry.minusMinutes(1)));
+        assertThrows(ParkingException.class, () -> ticket.close(entry.minusMinutes(1)));
+    }
 
     private final Vehicle car = new Car("T000001", "Toyota", "Corolla", "Blanco");
     private final Vehicle bike = new Motorcycle("T000002", "Honda", "CBR", "Negro");

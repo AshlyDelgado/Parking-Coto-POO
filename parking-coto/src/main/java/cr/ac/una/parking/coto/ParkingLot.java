@@ -17,8 +17,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Coordinates the parking lot operations and acts as the main orchestrator of
@@ -57,8 +59,8 @@ public class ParkingLot {
      * Creates a new empty parking lot with empty registries.
      */
     public ParkingLot() {
-        this.vehicles = new HashMap<String, Vehicle>();
-        this.spaces = new HashMap<Integer, ParkingSpace>();
+        this.vehicles = new LinkedHashMap<String, Vehicle>();
+        this.spaces = new TreeMap<Integer, ParkingSpace>();
         this.tickets = new ArrayList<ParkingTicket>();
         this.payments = new ArrayList<Payment>();
         this.nextTicketId = 1L;
@@ -112,6 +114,70 @@ public class ParkingLot {
             }
         }
         return Collections.unmodifiableList(availableSpaces);
+    }
+
+    /**
+     * Returns every registered parking space ordered by its number.
+     *
+     * @return read-only list with all the spaces
+     */
+    public List<ParkingSpace> getSpaces() {
+        return Collections.unmodifiableList(new ArrayList<ParkingSpace>(spaces.values()));
+    }
+
+    /**
+     * Returns every registered vehicle in registration order.
+     *
+     * @return read-only list with all the vehicles
+     */
+    public List<Vehicle> getVehicles() {
+        return Collections.unmodifiableList(new ArrayList<Vehicle>(vehicles.values()));
+    }
+
+    /**
+     * Returns the complete ticket history, including closed and paid tickets.
+     *
+     * @return read-only list with every ticket generated so far
+     */
+    public List<ParkingTicket> getTickets() {
+        return Collections.unmodifiableList(new ArrayList<ParkingTicket>(tickets));
+    }
+
+    /**
+     * Returns the payments registered so far.
+     *
+     * @return read-only list with every payment
+     */
+    public List<Payment> getPayments() {
+        return Collections.unmodifiableList(new ArrayList<Payment>(payments));
+    }
+
+    /**
+     * Puts an available parking space out of service so it cannot be assigned.
+     *
+     * @param number identifier of the space
+     * @throws RecordNotFoundException if the space is not registered
+     * @throws SpaceNotAvailableException if the space is not currently available
+     */
+    public void putSpaceOutOfService(int number) {
+        ParkingSpace space = findSpace(number);
+        if (!space.putOutOfService()) {
+            throw new SpaceNotAvailableException("Solo se puede poner fuera de servicio un espacio disponible");
+        }
+    }
+
+    /**
+     * Returns an out-of-service parking space to the available state.
+     *
+     * @param number identifier of the space
+     * @throws RecordNotFoundException if the space is not registered
+     * @throws SpaceNotAvailableException if the space is not out of service
+     */
+    public void restoreSpaceService(int number) {
+        ParkingSpace space = findSpace(number);
+        if (!space.restoreService()) {
+            throw new SpaceNotAvailableException("El espacio no está fuera de servicio");
+        }
     }
 
     /**
@@ -347,6 +413,21 @@ public class ParkingLot {
             }
         }
         return count;
+    }
+
+    /**
+     * Finds a registered space by its number.
+     *
+     * @param number identifier of the space
+     * @return the registered space
+     * @throws RecordNotFoundException if the space is not registered
+     */
+    private ParkingSpace findSpace(int number) {
+        ParkingSpace space = spaces.get(number);
+        if (space == null) {
+            throw new RecordNotFoundException("El espacio no está registrado");
+        }
+        return space;
     }
 
     /**

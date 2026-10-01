@@ -140,8 +140,10 @@ public class ParkingTicket {
      *
      * @param exitTime time at which the vehicle leaves the parking lot
      * @return minutes elapsed between the entry and the supplied exit time
+     * @throws ParkingException if the exit time is null or earlier than the entry time
      */
     public long calculateStayMinutes(LocalDateTime exitTime) {
+        requireValidExit(exitTime);
         return Duration.between(entryTime, exitTime).toMinutes();
     }
 
@@ -151,8 +153,10 @@ public class ParkingTicket {
      *
      * @param exitTime time at which the vehicle leaves the parking lot
      * @return charged hours, or zero if the stay has no duration
+     * @throws ParkingException if the exit time is null or earlier than the entry time
      */
     public int calculateChargedHours(LocalDateTime exitTime) {
+        requireValidExit(exitTime);
         Duration stay = Duration.between(entryTime, exitTime);
         long wholeHours = stay.toHours();
         boolean hasPartialHour = !stay.minusHours(wholeHours).isZero();
@@ -170,14 +174,24 @@ public class ParkingTicket {
         if (status != TicketStatus.ACTIVE) {
             throw new InvalidTicketStateException("El ticket no está activo");
         }
-        if (exitTime == null || exitTime.isBefore(entryTime)) {
-            throw new ParkingException("La salida no puede ser anterior a la entrada");
-        }
+        requireValidExit(exitTime);
 
         this.amount = vehicle.calculateFee(calculateChargedHours(exitTime));
         this.exitTime = exitTime;
         this.status = TicketStatus.CLOSED;
         space.release();
+    }
+
+    /**
+     * Rejects an exit time that is missing or earlier than the entry time.
+     *
+     * @param exitTime exit time to validate
+     * @throws ParkingException if the exit time is null or earlier than the entry time
+     */
+    private void requireValidExit(LocalDateTime exitTime) {
+        if (exitTime == null || exitTime.isBefore(entryTime)) {
+            throw new ParkingException("La salida no puede ser anterior a la entrada");
+        }
     }
 
     /**
