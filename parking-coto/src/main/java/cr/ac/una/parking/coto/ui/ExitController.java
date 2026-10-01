@@ -36,6 +36,7 @@ public class ExitController implements Refreshable {
     @FXML private DatePicker datePicker;
     @FXML private TextField timeField;
     @FXML private Label entryInfoLabel;
+    @FXML private Label previewLabel;
     @FXML private Label feedbackLabel;
 
     /**
@@ -91,6 +92,31 @@ public class ExitController implements Refreshable {
     }
 
     @FXML
+    private void onCalculateAmount() {
+        try {
+            Vehicle vehicle = vehicleCombo.getValue();
+            if (vehicle == null) {
+                throw new IllegalArgumentException("Seleccione un vehículo");
+            }
+            ParkingTicket active = findActiveTicket(vehicle);
+            if (active == null) {
+                throw new IllegalArgumentException("El vehículo no tiene un ticket activo: no hay nada que calcular");
+            }
+            LocalDateTime time = exitTime.getValue();
+            previewLabel.setText("Si sale el " + UiSupport.dateTime(time) + ": permanencia "
+                    + active.calculateStayMinutes(time) + " min · horas cobradas "
+                    + active.calculateChargedHours(time) + " · monto a pagar "
+                    + UiSupport.money(active.calculateAmount(time)));
+            previewLabel.setVisible(true);
+            previewLabel.setManaged(true);
+            feedback.hide();
+        } catch (ParkingException | IllegalArgumentException e) {
+            hidePreview();
+            feedback.error(e);
+        }
+    }
+
+    @FXML
     private void onRegisterExit() {
         try {
             Vehicle vehicle = vehicleCombo.getValue();
@@ -98,6 +124,7 @@ public class ExitController implements Refreshable {
                 throw new IllegalArgumentException("Seleccione un vehículo");
             }
             LocalDateTime time = exitTime.getValue();
+            hidePreview();
             ParkingTicket ticket = parkingLot.registerExit(vehicle, time);
             String summary = "Ticket #" + ticket.getId() + " · " + vehicle.getPlate() + " · permanencia "
                     + ticket.calculateStayMinutes(time) + " min · horas cobradas "
@@ -113,8 +140,15 @@ public class ExitController implements Refreshable {
         }
     }
 
+    /** Hides the amount calculated before the exit. */
+    private void hidePreview() {
+        previewLabel.setVisible(false);
+        previewLabel.setManaged(false);
+    }
+
     /** Shows when the selected vehicle entered, if it is inside. */
     private void showEntryInfo() {
+        hidePreview();
         Vehicle vehicle = vehicleCombo.getValue();
         ParkingTicket active = vehicle == null ? null : findActiveTicket(vehicle);
         if (vehicle == null) {

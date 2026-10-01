@@ -8,7 +8,7 @@ Controla vehículos, espacios, ingresos, tickets, salidas, cobro, pagos, ocupaci
 
 ## Requisitos
 
-- **JDK 17 o superior** (probado con 17 y 21).
+- **JDK 8 de Oracle** (ya trae JavaFX) **o JDK 17 o superior**. Probado con 8 y 21: el código se compila para Java 8, así que corre en ambos.
 - **Maven 3.9 o superior**. NetBeans ya lo trae integrado, no hace falta instalarlo aparte.
 - Opcional: **NetBeans** para ejecutar con un clic y abrir el diagrama UML, y **Scene Builder** para editar las pantallas (archivos `.fxml`).
 
@@ -18,11 +18,20 @@ Todos los comandos se escriben dentro de la carpeta `parking-coto`.
 
 ### 1. La aplicación con interfaz gráfica
 
+Con NetBeans: abrir la carpeta `parking-coto` como proyecto y usar *Run Project* (F6). Funciona con el JDK 8 y con el 17 o superior.
+
+Desde la terminal con JDK 17 o superior (descarga JavaFX la primera vez, necesita internet):
+
 ```bash
 mvn javafx:run
 ```
 
-Con NetBeans: abrir la carpeta `parking-coto` como proyecto y usar *Run Project* (F6). Maven descarga JavaFX la primera vez, por eso necesita internet.
+Desde la terminal con JDK 8 de Oracle, que ya trae JavaFX:
+
+```bash
+mvn compile
+java -cp target/classes cr.ac.una.parking.coto.ParkingCoto
+```
 
 ### 2. Los casos de prueba en consola (no necesita JavaFX)
 
@@ -39,7 +48,7 @@ Con `--markdown` en lugar de `--console` imprime los casos como tabla Markdown, 
 mvn test
 ```
 
-Con NetBeans: clic derecho sobre el proyecto y *Test*. Resultado esperado: 60 pruebas, 0 fallos.
+Con NetBeans: clic derecho sobre el proyecto y *Test*. Resultado esperado: 61 pruebas, 0 fallos.
 
 ## Cómo usar la interfaz en una demostración
 
@@ -119,7 +128,7 @@ Cada constante tiene `getDisplayName()` con su nombre en español, que es el que
 
 ## Pruebas
 
-60 pruebas JUnit y 19 casos de demostración (los 15 obligatorios del enunciado más 4 adicionales). El detalle, con entrada, resultado esperado y resultado obtenido, está en [docs/tabla-pruebas.md](docs/tabla-pruebas.md).
+61 pruebas JUnit y 19 casos de demostración (los 15 obligatorios del enunciado más 4 adicionales). El detalle, con entrada, resultado esperado y resultado obtenido, está en [docs/tabla-pruebas.md](docs/tabla-pruebas.md).
 
 ## Diagrama UML
 

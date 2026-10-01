@@ -164,6 +164,20 @@ public class ParkingTicket {
     }
 
     /**
+     * Calculates the amount to pay if the vehicle leaves at the given time.
+     * The amount comes from the concrete vehicle, so each type is charged with
+     * its own policy. The ticket is not changed: it can be used to show the
+     * amount before the exit is registered.
+     *
+     * @param exitTime time at which the vehicle would leave the parking lot
+     * @return amount to pay for the stay
+     * @throws ParkingException if the exit time is null or earlier than the entry time
+     */
+    public double calculateAmount(LocalDateTime exitTime) {
+        return vehicle.calculateFee(calculateChargedHours(exitTime));
+    }
+
+    /**
      * Closes the active ticket and calculates the corresponding amount.
      *
      * @param exitTime time at which the vehicle leaves the parking lot
@@ -176,7 +190,7 @@ public class ParkingTicket {
         }
         requireValidExit(exitTime);
 
-        this.amount = vehicle.calculateFee(calculateChargedHours(exitTime));
+        this.amount = calculateAmount(exitTime);
         this.exitTime = exitTime;
         this.status = TicketStatus.CLOSED;
         space.release();

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="14.0" styleClass="view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.ExitController">
+<VBox spacing="14.0" styleClass="view" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.ExitController">
    <children>
       <VBox spacing="2.0">
          <children>
@@ -44,6 +44,8 @@
                         <Button mnemonicParsing="false" onAction="#onQuickExit" styleClass="ghost-button" text="+25 h" userData="1500" />
                      </children>
                   </FlowPane>
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onCalculateAmount" styleClass="ghost-button" text="Calcular monto a pagar (sin cerrar el ticket)" />
+                  <Label fx:id="previewLabel" managed="false" styleClass="chip" visible="false" wrapText="true" />
                   <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onRegisterExit" styleClass="primary-button" text="Registrar salida" />
                </children>
             </VBox>

@@ -20,6 +20,9 @@
         </Constructor>
       </Constructors>
       <Methods>
+        <Method name="isBlank" returnType="boolean" visibility="private" isStatic="true">
+          <Argument type="String" name="value"/>
+        </Method>
         <Method name="getPlate" returnType="String" visibility="public"/>
         <Method name="getBrand" returnType="String" visibility="public"/>
         <Method name="getModel" returnType="String" visibility="public"/>
@@ -191,6 +194,9 @@
           <Argument type="LocalDateTime" name="exitTime"/>
         </Method>
         <Method name="calculateChargedHours" returnType="int" visibility="public">
+          <Argument type="LocalDateTime" name="exitTime"/>
+        </Method>
+        <Method name="calculateAmount" returnType="double" visibility="public">
           <Argument type="LocalDateTime" name="exitTime"/>
         </Method>
         <Method name="markAsPaid" returnType="void" visibility="public"/>

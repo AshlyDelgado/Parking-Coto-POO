@@ -1,6 +1,7 @@
 package cr.ac.una.parking.coto;
 
 import cr.ac.una.parking.coto.enums.SpaceType;
+import cr.ac.una.parking.coto.enums.TicketStatus;
 import cr.ac.una.parking.coto.exception.ParkingException;
 import cr.ac.una.parking.coto.model.Car;
 import cr.ac.una.parking.coto.model.FreightVehicle;
@@ -15,6 +16,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TariffTest {
+
+    @Test
+    void shouldCalculateTheAmountToPayWithoutClosingTheTicket() {
+        LocalDateTime entry = LocalDateTime.of(2026, 9, 30, 8, 0);
+        ParkingTicket carTicket = new ParkingTicket(1L, car, new ParkingSpace(1, SpaceType.CAR), entry);
+        ParkingTicket bikeTicket = new ParkingTicket(2L, bike, new ParkingSpace(2, SpaceType.MOTORCYCLE), entry);
+        ParkingTicket truckTicket = new ParkingTicket(3L, truck, new ParkingSpace(3, SpaceType.FREIGHT), entry);
+
+        assertEquals(1800.0, carTicket.calculateAmount(entry.plusMinutes(61)), 0.001);
+        assertEquals(1000.0, bikeTicket.calculateAmount(entry.plusMinutes(61)), 0.001);
+        assertEquals(3000.0, truckTicket.calculateAmount(entry.plusMinutes(61)), 0.001);
+        assertEquals(7000.0, carTicket.calculateAmount(entry.plusHours(11)), 0.001);
+        assertEquals(TicketStatus.ACTIVE, carTicket.getStatus());
+        assertEquals(0.0, carTicket.getAmount(), 0.001);
+        assertThrows(ParkingException.class, () -> carTicket.calculateAmount(entry.minusMinutes(1)));
+    }
 
     @Test
     void shouldRejectAnInvalidExitTimeWhenCalculating() {
