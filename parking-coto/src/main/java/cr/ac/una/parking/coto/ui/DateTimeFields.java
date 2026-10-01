@@ -20,10 +20,14 @@ import javafx.util.StringConverter;
  */
 final class DateTimeFields {
 
-    /** Format of the date typed by the user. */
+    /** Format used to show a date. */
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    /** Format of the time typed by the user. */
+    /** Format used to show a time. */
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+    /** Format accepted when the user types a date: 01/10/2026 and 1/10/2026 both work. */
+    private static final DateTimeFormatter DATE_INPUT = DateTimeFormatter.ofPattern("d/M/yyyy");
+    /** Format accepted when the user types a time: 08:30 and 8:30 both work. */
+    private static final DateTimeFormatter TIME_INPUT = DateTimeFormatter.ofPattern("H:mm");
 
     /** Control used to choose the date. */
     private final DatePicker datePicker;
@@ -47,7 +51,7 @@ final class DateTimeFields {
 
             @Override
             public LocalDate fromString(String text) {
-                return text == null || text.trim().isEmpty() ? null : LocalDate.parse(text.trim(), DATE_FORMAT);
+                return text == null || text.trim().isEmpty() ? null : LocalDate.parse(text.trim(), DATE_INPUT);
             }
         });
         this.datePicker.setPromptText("dd/MM/aaaa");
@@ -79,7 +83,7 @@ final class DateTimeFields {
         LocalDate date;
         try {
             String typed = datePicker.getEditor().getText();
-            date = typed == null || typed.trim().isEmpty() ? null : LocalDate.parse(typed.trim(), DATE_FORMAT);
+            date = typed == null || typed.trim().isEmpty() ? null : LocalDate.parse(typed.trim(), DATE_INPUT);
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("La fecha debe tener el formato dd/MM/aaaa, por ejemplo 01/10/2026");
         }
@@ -88,7 +92,7 @@ final class DateTimeFields {
         }
         datePicker.setValue(date);
         try {
-            LocalTime time = LocalTime.parse(timeField.getText().trim(), TIME_FORMAT);
+            LocalTime time = LocalTime.parse(timeField.getText().trim(), TIME_INPUT);
             return date.atTime(time);
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("La hora debe tener el formato HH:mm, por ejemplo 08:30");

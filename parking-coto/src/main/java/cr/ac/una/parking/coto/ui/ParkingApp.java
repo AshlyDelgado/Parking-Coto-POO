@@ -37,11 +37,11 @@ public class ParkingApp extends Application {
     public void start(Stage stage) throws IOException {
         Thread.setDefaultUncaughtExceptionHandler((thread, error) -> Platform.runLater(() -> UiSupport.showUnexpected(error)));
         Parent root = load(new ParkingLot());
-        Scene scene = new Scene(root, 1320, 820);
+        Scene scene = new Scene(root, 1280, 690);
         scene.getStylesheets().add(ParkingApp.class.getResource("parking.css").toExternalForm());
         stage.setTitle("ParkingCoto · Sistema de gestión de parqueos");
-        stage.setMinWidth(1120);
-        stage.setMinHeight(700);
+        stage.setMinWidth(1260);
+        stage.setMinHeight(640);
         stage.setScene(scene);
         stage.show();
     }

@@ -35,13 +35,13 @@ public class ScenariosController implements Refreshable {
     @FXML
     private void initialize() {
         resultsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        addColumn("N.º", 40, false, result -> String.valueOf(result.getNumber()));
-        addColumn("Tipo", 100, false, ScenarioResult::getCategory);
-        addColumn("Caso", 170, true, ScenarioResult::getName);
-        addColumn("Entrada", 215, true, ScenarioResult::getInput);
-        addColumn("Resultado esperado", 200, true, ScenarioResult::getExpected);
-        addColumn("Resultado obtenido", 225, true, ScenarioResult::getObtained);
-        addColumn("Veredicto", 105, false, result -> result.isPassed() ? "✔ Correcto" : "✘ Falla");
+        addColumn("N.º", 40, 40, false, result -> String.valueOf(result.getNumber()));
+        addColumn("Tipo", 90, 90, false, ScenarioResult::getCategory);
+        addColumn("Caso", 170, 120, true, ScenarioResult::getName);
+        addColumn("Entrada", 215, 140, true, ScenarioResult::getInput);
+        addColumn("Resultado esperado", 210, 205, true, ScenarioResult::getExpected);
+        addColumn("Resultado obtenido", 225, 205, true, ScenarioResult::getObtained);
+        addColumn("Veredicto", 105, 105, false, result -> result.isPassed() ? "✔ Correcto" : "✘ Falla");
     }
 
     /** This screen has nothing to reload: the cases always run on new data. */
@@ -61,10 +61,11 @@ public class ScenariosController implements Refreshable {
     }
 
     /** Adds a column; long texts can wrap onto several lines. */
-    private void addColumn(String title, double width, boolean wrap, Function<ScenarioResult, String> text) {
+    private void addColumn(String title, double width, double minWidth, boolean wrap,
+                           Function<ScenarioResult, String> text) {
         TableColumn<ScenarioResult, String> column = new TableColumn<ScenarioResult, String>(title);
         column.setPrefWidth(width);
-        column.setMinWidth(wrap ? 110 : width);
+        column.setMinWidth(minWidth);
         column.setSortable(false);
         column.setCellValueFactory(cell -> new SimpleStringProperty(text.apply(cell.getValue())));
         if (wrap) {

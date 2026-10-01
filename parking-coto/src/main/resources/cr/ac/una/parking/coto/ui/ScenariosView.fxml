@@ -13,11 +13,11 @@
             <VBox spacing="2.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label styleClass="view-title" text="Casos de prueba" />
-                  <Label styleClass="view-subtitle" text="Cada caso corre sobre un parqueo nuevo con las clases reales y compara lo esperado con lo obtenido." />
+                  <Label styleClass="view-subtitle" text="Cada caso corre sobre un parqueo nuevo y compara lo esperado con lo obtenido." />
                </children>
             </VBox>
-            <Label fx:id="summaryLabel" styleClass="summary" />
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#onRunScenarios" styleClass="primary-button" text="Ejecutar casos de prueba" />
+            <Label fx:id="summaryLabel" minWidth="-Infinity" styleClass="summary" />
+            <Button defaultButton="true" minWidth="-Infinity" mnemonicParsing="false" onAction="#onRunScenarios" styleClass="primary-button" text="Ejecutar casos de prueba" />
          </children>
       </HBox>
       <VBox styleClass="card" VBox.vgrow="ALWAYS">
