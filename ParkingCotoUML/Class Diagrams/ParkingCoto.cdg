@@ -2,7 +2,7 @@
 
 <ClassDiagram name="ParkingCoto">
   <ClassDiagramComponents>
-    <Class name="Vehicle" package="" visibility="public" isAbstract="true" xPosition="2700.0" yPosition="76.0">
+    <Class name="Vehicle" package="" visibility="public" isAbstract="true" xPosition="1710.0" yPosition="340.0">
       <Fields>
         <Field name="plate" type="String" visibility="private"/>
         <Field name="brand" type="String" visibility="private"/>
@@ -10,7 +10,15 @@
         <Field name="color" type="String" visibility="private"/>
         <Field name="type" type="VehicleType" visibility="private"/>
       </Fields>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="protected">
+          <Argument type="String" name="plate"/>
+          <Argument type="String" name="brand"/>
+          <Argument type="String" name="model"/>
+          <Argument type="String" name="color"/>
+          <Argument type="VehicleType" name="type"/>
+        </Constructor>
+      </Constructors>
       <Methods>
         <Method name="getPlate" returnType="String" visibility="public"/>
         <Method name="getBrand" returnType="String" visibility="public"/>
@@ -18,138 +26,221 @@
         <Method name="getColor" returnType="String" visibility="public"/>
         <Method name="getType" returnType="VehicleType" visibility="public"/>
         <Method name="getRequiredSpaceType" returnType="SpaceType" visibility="public" isAbstract="true"/>
+        <Method name="calculateFee" returnType="double" visibility="public" isAbstract="true">
+          <Argument type="int" name="chargedHours"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Car" package="" visibility="public" xPosition="2020.0" yPosition="1190.0">
+      <Fields>
+        <Field name="pricing" type="PricingPolicy" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="plate"/>
+          <Argument type="String" name="brand"/>
+          <Argument type="String" name="model"/>
+          <Argument type="String" name="color"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getRequiredSpaceType" returnType="SpaceType" visibility="public"/>
         <Method name="calculateFee" returnType="double" visibility="public">
           <Argument type="int" name="chargedHours"/>
         </Method>
       </Methods>
     </Class>
-    <Class name="Tariff" package="" visibility="public" xPosition="2965.0" yPosition="934.0">
+    <Class name="Motorcycle" package="" visibility="public" xPosition="2180.0" yPosition="880.0">
       <Fields>
-        <Field name="hourlyRate" type="double" visibility="private"/>
-        <Field name="dailyCap" type="double" visibility="private"/>
-        <Field name="capThresholdHours" type="int" visibility="private"/>
-        <Field name="periodHours" type="int" visibility="private"/>
+        <Field name="pricing" type="PricingPolicy" visibility="private"/>
       </Fields>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="plate"/>
+          <Argument type="String" name="brand"/>
+          <Argument type="String" name="model"/>
+          <Argument type="String" name="color"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getRequiredSpaceType" returnType="SpaceType" visibility="public"/>
+        <Method name="calculateFee" returnType="double" visibility="public">
+          <Argument type="int" name="chargedHours"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="FreightVehicle" package="" visibility="public" xPosition="2540.0" yPosition="570.0">
+      <Fields>
+        <Field name="pricing" type="PricingPolicy" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="plate"/>
+          <Argument type="String" name="brand"/>
+          <Argument type="String" name="model"/>
+          <Argument type="String" name="color"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getRequiredSpaceType" returnType="SpaceType" visibility="public"/>
+        <Method name="calculateFee" returnType="double" visibility="public">
+          <Argument type="int" name="chargedHours"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Interface name="PricingPolicy" package="" visibility="public" xPosition="2670.0" yPosition="980.0">
+      <Methods>
+        <Method name="calculate" returnType="double" visibility="public">
+          <Argument type="int" name="chargedHours"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Class name="Tariff" package="" visibility="public" xPosition="2250.0" yPosition="1410.0">
+      <Fields>
+        <Field name="MOTORCYCLE_HOURLY_RATE" type="double" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="CAR_HOURLY_RATE" type="double" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="FREIGHT_HOURLY_RATE" type="double" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="MOTORCYCLE_DAILY_CAP" type="double" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="CAR_DAILY_CAP" type="double" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="FREIGHT_DAILY_CAP" type="double" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="hourlyRate" type="double" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private">
+          <Argument type="double" name="hourlyRate"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="calculate" returnType="double" visibility="public">
+          <Argument type="int" name="chargedHours"/>
+        </Method>
+        <Method name="forMotorcycle" returnType="PricingPolicy" visibility="public" isStatic="true"/>
+        <Method name="forCar" returnType="PricingPolicy" visibility="public" isStatic="true"/>
+        <Method name="forFreight" returnType="PricingPolicy" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="DailyCapPolicy" package="" visibility="public" xPosition="2600.0" yPosition="1520.0">
+      <Fields>
+        <Field name="CAP_THRESHOLD_HOURS" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="PERIOD_HOURS" type="int" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="basePolicy" type="PricingPolicy" visibility="private"/>
+        <Field name="dailyCap" type="double" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="PricingPolicy" name="basePolicy"/>
+          <Argument type="double" name="dailyCap"/>
+        </Constructor>
+      </Constructors>
       <Methods>
         <Method name="calculate" returnType="double" visibility="public">
           <Argument type="int" name="chargedHours"/>
         </Method>
       </Methods>
     </Class>
-    <Class name="Car" package="" visibility="public" xPosition="3428.0" yPosition="250.0">
-      <Fields>
-        <Field name="pricing" type="PricingPolicy" visibility="private"/>
-      </Fields>
-      <Constructors/>
-      <Methods>
-        <Method name="getRequiredSpaceType" returnType="SpaceType" visibility="public"/>
-        <Method name="calculateFee" returnType="double" visibility="public">
-          <Argument type="int" name="chargedHours"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Class name="Motorcycle" package="" visibility="public" xPosition="3167.0" yPosition="669.0">
-      <Fields>
-        <Field name="pricing" type="PricingPolicy" visibility="private"/>
-      </Fields>
-      <Constructors/>
-      <Methods>
-        <Method name="getRequiredSpaceType" returnType="SpaceType" visibility="public"/>
-        <Method name="calculateFee" returnType="double" visibility="public">
-          <Argument type="int" name="chargedHours"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Class name="FreightVehicle" package="" visibility="public" xPosition="3715.0" yPosition="143.0">
-      <Fields>
-        <Field name="pricing" type="PricingPolicy" visibility="private"/>
-      </Fields>
-      <Constructors/>
-      <Methods>
-        <Method name="getRequiredSpaceType" returnType="SpaceType" visibility="public"/>
-        <Method name="calculateFee" returnType="double" visibility="public">
-          <Argument type="int" name="chargedHours"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Class name="ParkingSpace" package="" visibility="public" xPosition="74.0" yPosition="1376.0">
+    <Class name="ParkingSpace" package="" visibility="public" xPosition="1660.0" yPosition="1010.0">
       <Fields>
         <Field name="number" type="int" visibility="private"/>
         <Field name="type" type="SpaceType" visibility="private"/>
         <Field name="status" type="SpaceStatus" visibility="private"/>
       </Fields>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="number"/>
+          <Argument type="SpaceType" name="type"/>
+        </Constructor>
+      </Constructors>
       <Methods>
-        <Method name="occupy" returnType="boolean" visibility="public"/>
-        <Method name="release" returnType="void" visibility="public"/>
-        <Method name="putOutOfService" returnType="boolean" visibility="public"/>
-        <Method name="restoreService" returnType="void" visibility="public"/>
+        <Method name="getNumber" returnType="int" visibility="public"/>
+        <Method name="getType" returnType="SpaceType" visibility="public"/>
+        <Method name="getStatus" returnType="SpaceStatus" visibility="public"/>
         <Method name="isAvailable" returnType="boolean" visibility="public"/>
         <Method name="isUsable" returnType="boolean" visibility="public"/>
         <Method name="isCompatibleWith" returnType="boolean" visibility="public">
           <Argument type="Vehicle" name="vehicle"/>
         </Method>
-        <Method name="getNumber" returnType="int" visibility="public"/>
-        <Method name="getType" returnType="SpaceType" visibility="public"/>
-        <Method name="getStatus" returnType="SpaceStatus" visibility="public"/>
+        <Method name="occupy" returnType="boolean" visibility="public"/>
+        <Method name="release" returnType="boolean" visibility="public"/>
+        <Method name="putOutOfService" returnType="boolean" visibility="public"/>
+        <Method name="restoreService" returnType="boolean" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ParkingTicket" package="" visibility="public" xPosition="630.0" yPosition="2122.0">
+    <Class name="ParkingTicket" package="" visibility="public" xPosition="900.0" yPosition="1230.0">
       <Fields>
-        <Field name="ticketNumber" type="int" visibility="private"/>
+        <Field name="id" type="long" visibility="private"/>
         <Field name="vehicle" type="Vehicle" visibility="private"/>
         <Field name="space" type="ParkingSpace" visibility="private"/>
         <Field name="entryTime" type="LocalDateTime" visibility="private"/>
         <Field name="exitTime" type="LocalDateTime" visibility="private"/>
         <Field name="status" type="TicketStatus" visibility="private"/>
-        <Field name="finalAmount" type="double" visibility="private"/>
+        <Field name="amount" type="double" visibility="private"/>
       </Fields>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="long" name="id"/>
+          <Argument type="Vehicle" name="vehicle"/>
+          <Argument type="ParkingSpace" name="space"/>
+          <Argument type="LocalDateTime" name="entryTime"/>
+        </Constructor>
+      </Constructors>
       <Methods>
         <Method name="close" returnType="void" visibility="public">
           <Argument type="LocalDateTime" name="exitTime"/>
         </Method>
-        <Method name="calculateChargedHours" returnType="int" visibility="public"/>
+        <Method name="calculateStayMinutes" returnType="long" visibility="public">
+          <Argument type="LocalDateTime" name="exitTime"/>
+        </Method>
+        <Method name="calculateChargedHours" returnType="int" visibility="public">
+          <Argument type="LocalDateTime" name="exitTime"/>
+        </Method>
         <Method name="markAsPaid" returnType="void" visibility="public"/>
         <Method name="isActive" returnType="boolean" visibility="public"/>
-        <Method name="getTicketNumber" returnType="int" visibility="public"/>
+        <Method name="getId" returnType="long" visibility="public"/>
         <Method name="getVehicle" returnType="Vehicle" visibility="public"/>
         <Method name="getSpace" returnType="ParkingSpace" visibility="public"/>
         <Method name="getEntryTime" returnType="LocalDateTime" visibility="public"/>
         <Method name="getExitTime" returnType="LocalDateTime" visibility="public"/>
         <Method name="getStatus" returnType="TicketStatus" visibility="public"/>
-        <Method name="getFinalAmount" returnType="double" visibility="public"/>
+        <Method name="getAmount" returnType="double" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Payment" package="" visibility="public" xPosition="1743.0" yPosition="2274.0">
+    <Class name="Payment" package="" visibility="public" xPosition="210.0" yPosition="1190.0">
       <Fields>
-        <Field name="id" type="int" visibility="private"/>
+        <Field name="id" type="long" visibility="private"/>
         <Field name="ticket" type="ParkingTicket" visibility="private"/>
-        <Field name="paymentTime" type="LocalDateTime" visibility="private"/>
+        <Field name="paymentDateTime" type="LocalDateTime" visibility="private"/>
         <Field name="amount" type="double" visibility="private"/>
         <Field name="type" type="PaymentType" visibility="private"/>
       </Fields>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="long" name="id"/>
+          <Argument type="ParkingTicket" name="ticket"/>
+          <Argument type="LocalDateTime" name="paymentDateTime"/>
+          <Argument type="double" name="amount"/>
+          <Argument type="PaymentType" name="type"/>
+        </Constructor>
+      </Constructors>
       <Methods>
-        <Method name="getId" returnType="int" visibility="public"/>
+        <Method name="getId" returnType="long" visibility="public"/>
         <Method name="getTicket" returnType="ParkingTicket" visibility="public"/>
-        <Method name="getPaymentTime" returnType="LocalDateTime" visibility="public"/>
+        <Method name="getPaymentDateTime" returnType="LocalDateTime" visibility="public"/>
         <Method name="getAmount" returnType="double" visibility="public"/>
         <Method name="getType" returnType="PaymentType" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ParkingLot" package="" visibility="public" xPosition="2459.0" yPosition="1283.0">
+    <Class name="ParkingLot" package="" visibility="public" xPosition="230.0" yPosition="620.0">
       <Fields>
-        <Field name="name" type="String" visibility="private"/>
-        <Field name="vehicles" type="List&lt;Vehicle&gt;" visibility="private"/>
-        <Field name="spaces" type="List&lt;ParkingSpace&gt;" visibility="private"/>
+        <Field name="vehicles" type="Map&lt;String, Vehicle&gt;" visibility="private"/>
+        <Field name="spaces" type="Map&lt;Integer, ParkingSpace&gt;" visibility="private"/>
         <Field name="tickets" type="List&lt;ParkingTicket&gt;" visibility="private"/>
         <Field name="payments" type="List&lt;Payment&gt;" visibility="private"/>
-        <Field name="nextTicketNumber" type="int" visibility="private"/>
-        <Field name="nextPaymentId" type="int" visibility="private"/>
+        <Field name="nextTicketId" type="long" visibility="private"/>
+        <Field name="nextPaymentId" type="long" visibility="private"/>
       </Fields>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
       <Methods>
         <Method name="registerVehicle" returnType="void" visibility="public">
           <Argument type="Vehicle" name="vehicle"/>
@@ -162,150 +253,177 @@
           <Argument type="Vehicle" name="vehicle"/>
           <Argument type="LocalDateTime" name="entryTime"/>
         </Method>
+        <Method name="registerEntry" returnType="ParkingTicket" visibility="public">
+          <Argument type="Vehicle" name="vehicle"/>
+          <Argument type="ParkingSpace" name="space"/>
+          <Argument type="LocalDateTime" name="entryTime"/>
+        </Method>
         <Method name="registerExit" returnType="ParkingTicket" visibility="public">
           <Argument type="Vehicle" name="vehicle"/>
           <Argument type="LocalDateTime" name="exitTime"/>
         </Method>
         <Method name="registerPayment" returnType="Payment" visibility="public">
           <Argument type="ParkingTicket" name="ticket"/>
-          <Argument type="PaymentType" name="type"/>
-          <Argument type="LocalDateTime" name="paymentTime"/>
+          <Argument type="PaymentType" name="paymentType"/>
+          <Argument type="LocalDateTime" name="paymentDateTime"/>
         </Method>
         <Method name="getActiveTickets" returnType="List&lt;ParkingTicket&gt;" visibility="public"/>
         <Method name="getVehiclesInside" returnType="List&lt;Vehicle&gt;" visibility="public"/>
         <Method name="getTotalIncome" returnType="double" visibility="public"/>
-        <Method name="getOccupancyByType" returnType="Map" visibility="public"/>
+        <Method name="getOccupancyByType" returnType="Map&lt;SpaceType, Integer&gt;" visibility="public"/>
+        <Method name="countUsableSpaces" returnType="int" visibility="public"/>
         <Method name="findCompatibleSpace" returnType="ParkingSpace" visibility="private">
           <Argument type="Vehicle" name="vehicle"/>
         </Method>
         <Method name="findActiveTicket" returnType="ParkingTicket" visibility="private">
           <Argument type="Vehicle" name="vehicle"/>
         </Method>
-        <Method name="countUsableSpaces" returnType="int" visibility="public"/>
-        <Method name="registerEntry" returnType="ParkingTicket" visibility="public">
-          <Argument type="Vehicle" name="vehicle"/>
-          <Argument type="ParkingSpace" name="space"/>
-          <Argument type="LocalDateTime" name="entryTime"/>
+      </Methods>
+    </Class>
+    <Class name="ParkingCoto" package="" visibility="public" xPosition="990.0" yPosition="1050.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
         </Method>
       </Methods>
     </Class>
-    <Interface name="PricingPolicy" package="" visibility="public" xPosition="3351.0" yPosition="892.0">
-      <Methods>
-        <Method name="calculate" returnType="double" visibility="public">
-          <Argument type="int" name="chargedHours"/>
-        </Method>
-      </Methods>
-    </Interface>
-    <Enum name="VehicleType" package="" visibility="public" xPosition="2236.0" yPosition="8.0">
+    <Enum name="VehicleType" package="" visibility="public" xPosition="1160.0" yPosition="40.0">
       <Literals>
         <Literal name="MOTORCYCLE"/>
         <Literal name="CAR"/>
         <Literal name="FREIGHT"/>
       </Literals>
     </Enum>
-    <Enum name="SpaceType" package="" visibility="public" xPosition="4499.0" yPosition="55.0">
+    <Enum name="SpaceType" package="" visibility="public" xPosition="1910.0" yPosition="1580.0">
       <Literals>
-        <Literal name="MOTORCYLE"/>
+        <Literal name="MOTORCYCLE"/>
         <Literal name="CAR"/>
         <Literal name="FREIGHT"/>
       </Literals>
     </Enum>
-    <Enum name="SpaceStatus" package="" visibility="public" xPosition="156.0" yPosition="583.0">
+    <Enum name="SpaceStatus" package="" visibility="public" xPosition="1670.0" yPosition="1450.0">
       <Literals>
         <Literal name="AVAILABLE"/>
         <Literal name="OCCUPIED"/>
         <Literal name="OUT_OF_SERVICE"/>
       </Literals>
     </Enum>
-    <Enum name="TicketStatus" package="" visibility="public" xPosition="697.0" yPosition="2665.0">
+    <Enum name="TicketStatus" package="" visibility="public" xPosition="670.0" yPosition="1580.0">
       <Literals>
         <Literal name="ACTIVE"/>
         <Literal name="CLOSED"/>
         <Literal name="PAID"/>
       </Literals>
     </Enum>
-    <Enum name="PaymentType" package="" visibility="public" xPosition="2678.0" yPosition="2393.0">
+    <Enum name="PaymentType" package="" visibility="public" xPosition="410.0" yPosition="1540.0">
       <Literals>
         <Literal name="CASH"/>
         <Literal name="CARD"/>
         <Literal name="SINPE_MOVIL"/>
       </Literals>
     </Enum>
-    <Class name="RuntimeException" package="" visibility="public" xPosition="433.0" yPosition="523.0">
+    <Class name="RuntimeException" package="" visibility="public" xPosition="765.0" yPosition="40.0">
       <Fields/>
       <Constructors/>
       <Methods/>
     </Class>
-    <Class name="ParkingException" package="" visibility="public" xPosition="1249.0" yPosition="500.0">
+    <Class name="ParkingException" package="" visibility="public" xPosition="732.0" yPosition="210.0">
       <Fields/>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="message"/>
+        </Constructor>
+      </Constructors>
       <Methods/>
     </Class>
-    <Class name="SpaceNotAvailableException" package="" visibility="public" xPosition="940.0" yPosition="78.0">
+    <Class name="SpaceNotAvailableException" package="" visibility="public" xPosition="40.0" yPosition="460.0">
       <Fields/>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="message"/>
+        </Constructor>
+      </Constructors>
       <Methods/>
     </Class>
-    <Class name="ActiveTicketException" package="" visibility="public" xPosition="1891.0" yPosition="60.0">
+    <Class name="ActiveTicketException" package="" visibility="public" xPosition="390.0" yPosition="460.0">
       <Fields/>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="message"/>
+        </Constructor>
+      </Constructors>
       <Methods/>
     </Class>
-    <Class name="InvalidTicketStateException" package="" visibility="public" xPosition="433.0" yPosition="809.0">
+    <Class name="InvalidTicketStateException" package="" visibility="public" xPosition="1370.0" yPosition="460.0">
       <Fields/>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="message"/>
+        </Constructor>
+      </Constructors>
       <Methods/>
     </Class>
-    <Class name="DuplicateRecordException" package="" visibility="public" xPosition="473.0" yPosition="250.0">
+    <Class name="DuplicateRecordException" package="" visibility="public" xPosition="690.0" yPosition="460.0">
       <Fields/>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="message"/>
+        </Constructor>
+      </Constructors>
       <Methods/>
     </Class>
-    <Class name="RecordNotFoundException" package="" visibility="public" xPosition="1448.0" yPosition="78.0">
+    <Class name="RecordNotFoundException" package="" visibility="public" xPosition="1030.0" yPosition="460.0">
       <Fields/>
-      <Constructors/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="message"/>
+        </Constructor>
+      </Constructors>
       <Methods/>
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <UseRelation name="throws" source="ParkingLot" target="RecordNotFoundException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <IsRelation name="is" source="ActiveTicketException" target="ParkingException"/>
-    <UseRelation name="uses" source="ParkingLot" target="PaymentType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="ParkingTicket" target="TicketStatus" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="throws" source="ParkingLot" target="DuplicateRecordException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <IsRelation name="is" source="RecordNotFoundException" target="ParkingException"/>
-    <HasRelation name="payments" source="ParkingLot" target="Payment" type="Composition" sourceCardinality="0..1" targetCardinality="0..*" collectionType="List"/>
-    <UseRelation name="throws" source="Vehicle" target="ParkingException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="ParkingSpace" target="Vehicle" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <IsRelation name="is" source="ParkingException" target="RuntimeException"/>
-    <IsRelation name="is" source="InvalidTicketStateException" target="ParkingException"/>
-    <HasRelation name="pricing" source="FreightVehicle" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="throws" source="ParkingTicket" target="InvalidTicketStateException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="pricing" source="Car" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
     <IsRelation name="is" source="Car" target="Vehicle"/>
-    <UseRelation name="throws" source="ParkingLot" target="InvalidTicketStateException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="tickets" source="ParkingLot" target="ParkingTicket" type="Composition" sourceCardinality="0..1" targetCardinality="0..*" collectionType="List"/>
-    <HasRelation name="spaces" source="ParkingLot" target="ParkingSpace" type="Composition" sourceCardinality="0..1" targetCardinality="0..*" collectionType="List"/>
+    <IsRelation name="is" source="Motorcycle" target="Vehicle"/>
     <IsRelation name="is" source="FreightVehicle" target="Vehicle"/>
+    <IsRelation name="is" source="ParkingException" target="RuntimeException"/>
+    <IsRelation name="is" source="SpaceNotAvailableException" target="ParkingException"/>
+    <IsRelation name="is" source="ActiveTicketException" target="ParkingException"/>
+    <IsRelation name="is" source="InvalidTicketStateException" target="ParkingException"/>
+    <IsRelation name="is" source="DuplicateRecordException" target="ParkingException"/>
+    <IsRelation name="is" source="RecordNotFoundException" target="ParkingException"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="Tariff" target="PricingPolicy"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="DailyCapPolicy" target="PricingPolicy"/>
+    <HasRelation name="vehicles" source="ParkingLot" target="Vehicle" type="Aggregation" sourceCardinality="0..1" targetCardinality="0..*" collectionType="Map"/>
+    <HasRelation name="spaces" source="ParkingLot" target="ParkingSpace" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Map"/>
+    <HasRelation name="tickets" source="ParkingLot" target="ParkingTicket" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List"/>
+    <HasRelation name="payments" source="ParkingLot" target="Payment" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List"/>
+    <HasRelation name="vehicle" source="ParkingTicket" target="Vehicle" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="space" source="ParkingTicket" target="ParkingSpace" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="ticket" source="Payment" target="ParkingTicket" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="pricing" source="Car" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="pricing" source="Motorcycle" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="pricing" source="FreightVehicle" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="basePolicy" source="DailyCapPolicy" target="PricingPolicy" type="Aggregation" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="type" source="Vehicle" target="VehicleType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="type" source="ParkingSpace" target="SpaceType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="status" source="ParkingSpace" target="SpaceStatus" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="status" source="ParkingTicket" target="TicketStatus" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="type" source="Payment" target="PaymentType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="Vehicle" target="SpaceType" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="ParkingSpace" target="Vehicle" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="Car" target="Tariff" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="Motorcycle" target="Tariff" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="FreightVehicle" target="Tariff" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="creates" source="Tariff" target="DailyCapPolicy" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="ParkingCoto" target="ParkingLot" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="throws" source="ParkingTicket" target="InvalidTicketStateException" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="throws" source="ParkingLot" target="DuplicateRecordException" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="throws" source="ParkingLot" target="RecordNotFoundException" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="throws" source="ParkingLot" target="ActiveTicketException" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="throws" source="ParkingLot" target="SpaceNotAvailableException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="throws" source="ParkingTicket" target="ParkingException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="space" source="ParkingTicket" target="ParkingSpace" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="Vehicle" target="SpaceType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="Payment" target="PaymentType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="pricing" source="Motorcycle" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <HasRelation name="vehicles" source="ParkingLot" target="Vehicle" type="Aggregation" sourceCardinality="0..1" targetCardinality="0..*" collectionType="List"/>
-    <UseRelation name="uses" source="ParkingLot" target="SpaceType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="Tariff" target="PricingPolicy"/>
-    <UseRelation name="uses" source="ParkingSpace" target="SpaceStatus" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="ticket" source="Payment" target="ParkingTicket" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="Vehicle" target="VehicleType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <IsRelation name="is" source="SpaceNotAvailableException" target="ParkingException"/>
-    <UseRelation name="uses" source="ParkingSpace" target="SpaceType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <IsRelation name="is" source="DuplicateRecordException" target="ParkingException"/>
-    <UseRelation name="throws" source="ParkingSpace" target="ParkingException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="vehicle" source="ParkingTicket" target="Vehicle" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <UseRelation name="throws" source="ParkingLot" target="ParkingException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <IsRelation name="is" source="Motorcycle" target="Vehicle"/>
+    <UseRelation name="throws" source="ParkingLot" target="InvalidTicketStateException" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>
