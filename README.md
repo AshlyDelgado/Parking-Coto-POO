@@ -48,7 +48,7 @@ Con `--markdown` en lugar de `--console` imprime los casos como tabla Markdown, 
 mvn test
 ```
 
-Con NetBeans: clic derecho sobre el proyecto y *Test*. Resultado esperado: 61 pruebas, 0 fallos.
+Con NetBeans: clic derecho sobre el proyecto y *Test*. Resultado esperado: 62 pruebas, 0 fallos.
 
 ## Cómo usar la interfaz en una demostración
 
@@ -73,6 +73,7 @@ Parking-Coto-POO/
 ├── docs/
 │   ├── diagrama-uml.png          Diagrama de clases
 │   ├── tabla-pruebas.md          Casos con resultado esperado y obtenido
+│   ├── pruebas-manuales.md       Guía para probar todo a mano en la interfaz
 │   ├── InformeProyecto.md
 │   └── capturas/                 Capturas de la interfaz
 ├── ParkingCotoUML/               Proyecto de easyUML (NetBeans)
@@ -128,7 +129,7 @@ Cada constante tiene `getDisplayName()` con su nombre en español, que es el que
 
 ## Pruebas
 
-61 pruebas JUnit y 19 casos de demostración (los 15 obligatorios del enunciado más 4 adicionales). El detalle, con entrada, resultado esperado y resultado obtenido, está en [docs/tabla-pruebas.md](docs/tabla-pruebas.md).
+62 pruebas JUnit y 19 casos de demostración (los 15 obligatorios del enunciado más 4 adicionales). El detalle, con entrada, resultado esperado y resultado obtenido, está en [docs/tabla-pruebas.md](docs/tabla-pruebas.md). Para probar todo a mano, incluidos datos inválidos y casos que el enunciado no pide, hay una guía paso a paso en [docs/pruebas-manuales.md](docs/pruebas-manuales.md).
 
 ## Diagrama UML
 

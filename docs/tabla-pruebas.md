@@ -42,8 +42,9 @@ Además de los casos anteriores, el proyecto tiene pruebas JUnit que se ejecutan
 | `ParkingLotRulesTest` | 22 | Rechazos y límites: placa o espacio repetido, registros desconocidos, argumentos nulos, sin espacio libre para la asignación automática, doble pago, cierre de un ticket ya cerrado, salida anterior a la entrada sin cambiar nada, permanencia de 0 minutos, límites del tope (9 h exactas, 9 h 59 min, 24 h), datos inválidos de vehículos, espacios y pagos, numeración de tickets y pagos |
 | `ParkingLotServiceTest` | 6 | Espacios ordenados por número, asignación del espacio compatible más bajo, poner un espacio fuera de servicio y restaurarlo, historial de solo lectura |
 | `TariffTest` | 7 | Tarifa por hora, tope diario desde 10 horas, tope por cada período de 24 horas (25, 34, 48 y 49 horas), redondeo de cualquier fracción de hora, cálculo del monto a pagar sin cerrar el ticket, rechazo de horas de salida inválidas |
+| `ParkingLotInvariantsTest` | 1 | Simulación aleatoria: 150 parqueos con 250 operaciones al azar cada uno (unas 37 500). Después de cada operación comprueba que el estado sea coherente y que el monto de cada ticket coincida con la regla del enunciado calculada de forma independiente |
 | `ScenarioRunnerTest` | 3 | Los 19 casos de la tabla anterior pasan, 15 son obligatorios y están numerados en orden |
-| **Total** | **61** | **0 fallos, 0 errores** |
+| **Total** | **62** | **0 fallos, 0 errores** |
 
 ## Observaciones
 
