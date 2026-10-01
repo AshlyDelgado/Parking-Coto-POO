@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14.0" styleClass="view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.ScenariosController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="14.0">
+         <children>
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label styleClass="view-title" text="Casos de prueba" />
+                  <Label styleClass="view-subtitle" text="Cada caso corre sobre un parqueo nuevo con las clases reales y compara lo esperado con lo obtenido." />
+               </children>
+            </VBox>
+            <Label fx:id="summaryLabel" styleClass="summary" />
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onRunScenarios" styleClass="primary-button" text="Ejecutar casos de prueba" />
+         </children>
+      </HBox>
+      <VBox styleClass="card" VBox.vgrow="ALWAYS">
+         <children>
+            <TableView fx:id="resultsTable" VBox.vgrow="ALWAYS">
+               <placeholder>
+                  <Label text="Presiona «Ejecutar casos de prueba» para ver los 15 casos obligatorios y 4 adicionales." />
+               </placeholder>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</VBox>

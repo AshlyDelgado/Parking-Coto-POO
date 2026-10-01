@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14.0" styleClass="view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.EntryController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label styleClass="view-title" text="Registrar ingreso" />
+            <Label styleClass="view-subtitle" text="Asigna automáticamente un espacio compatible y genera el ticket." />
+         </children>
+      </VBox>
+      <Label fx:id="feedbackLabel" maxWidth="Infinity" />
+      <HBox>
+         <children>
+            <VBox maxWidth="680.0" prefWidth="680.0" spacing="8.0" styleClass="card">
+               <children>
+                  <Label styleClass="field-label" text="Vehículo" />
+                  <ComboBox fx:id="vehicleCombo" maxWidth="Infinity" promptText="Seleccione un vehículo" />
+                  <CheckBox fx:id="manualSpaceCheck" mnemonicParsing="false" onAction="#onManualSpaceToggled" text="Elegir el espacio manualmente (por defecto se asigna uno compatible)" />
+                  <ComboBox fx:id="spaceCombo" disable="true" maxWidth="Infinity" promptText="Espacio" />
+                  <Label styleClass="field-label" text="Fecha y hora de entrada" />
+                  <HBox alignment="CENTER_LEFT" spacing="8.0">
+                     <children>
+                        <DatePicker fx:id="datePicker" prefWidth="160.0" />
+                        <TextField fx:id="timeField" prefWidth="80.0" promptText="HH:mm" />
+                        <Button mnemonicParsing="false" onAction="#onNow" styleClass="ghost-button" text="Ahora" />
+                     </children>
+                  </HBox>
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onRegisterEntry" styleClass="primary-button" text="Registrar ingreso" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

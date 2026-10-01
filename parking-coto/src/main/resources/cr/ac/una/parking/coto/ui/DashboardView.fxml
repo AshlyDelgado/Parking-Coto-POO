@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="18.0" styleClass="view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.DashboardController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label styleClass="view-title" text="Dashboard" />
+            <Label styleClass="view-subtitle" text="Resumen del parqueo en este momento." />
+         </children>
+      </VBox>
+      <HBox spacing="16.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="14.0" styleClass="card" HBox.hgrow="ALWAYS">
+               <children>
+                  <StackPane fx:id="totalIcon" minHeight="56.0" minWidth="56.0" styleClass="icon-bubble" />
+                  <VBox spacing="2.0">
+                     <children>
+                        <Label styleClass="kpi-label" text="Espacios totales" />
+                        <Label fx:id="totalLabel" styleClass="kpi-value" text="0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="14.0" styleClass="card" HBox.hgrow="ALWAYS">
+               <children>
+                  <StackPane fx:id="occupiedIcon" minHeight="56.0" minWidth="56.0" styleClass="icon-bubble-red" />
+                  <VBox spacing="2.0">
+                     <children>
+                        <Label styleClass="kpi-label" text="Ocupados" />
+                        <Label fx:id="occupiedLabel" styleClass="kpi-value" text="0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="14.0" styleClass="card" HBox.hgrow="ALWAYS">
+               <children>
+                  <StackPane fx:id="availableIcon" minHeight="56.0" minWidth="56.0" styleClass="icon-bubble-green" />
+                  <VBox spacing="2.0">
+                     <children>
+                        <Label styleClass="kpi-label" text="Disponibles" />
+                        <Label fx:id="availableLabel" styleClass="kpi-value" text="0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="14.0" styleClass="card" HBox.hgrow="ALWAYS">
+               <children>
+                  <StackPane fx:id="incomeIcon" minHeight="56.0" minWidth="56.0" styleClass="icon-bubble-teal" />
+                  <VBox spacing="2.0">
+                     <children>
+                        <Label styleClass="kpi-label" text="Ingresos totales" />
+                        <Label fx:id="incomeLabel" styleClass="kpi-value" text="₡0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox spacing="16.0">
+         <children>
+            <VBox maxWidth="Infinity" spacing="14.0" styleClass="card" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label styleClass="card-title" text="Ocupación por tipo de espacio" />
+                  <VBox fx:id="occupancyBox" spacing="14.0" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" minWidth="300.0" prefWidth="300.0" spacing="6.0" styleClass="active-card">
+               <children>
+                  <StackPane fx:id="activeIcon" />
+                  <Label styleClass="active-title" text="TICKETS ACTIVOS" />
+                  <Label fx:id="activeCountLabel" styleClass="active-count" text="0" />
+                  <Label styleClass="active-hint" text="vehículos dentro del parqueo" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <VBox spacing="10.0" styleClass="card" VBox.vgrow="ALWAYS">
+         <children>
+            <Label styleClass="card-title" text="Actividad reciente" />
+            <ListView fx:id="activityList" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </children>
+</VBox>

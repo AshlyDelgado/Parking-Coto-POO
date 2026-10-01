@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14.0" styleClass="view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.SpacesController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label styleClass="view-title" text="Espacios" />
+            <Label styleClass="view-subtitle" text="Registra los espacios y controla cuáles están fuera de servicio." />
+         </children>
+      </VBox>
+      <Label fx:id="feedbackLabel" maxWidth="Infinity" />
+      <HBox spacing="16.0" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox maxWidth="360.0" minWidth="320.0" prefWidth="360.0" spacing="8.0" styleClass="card">
+               <children>
+                  <Label styleClass="card-title" text="Nuevo espacio" />
+                  <Label styleClass="field-label" text="Número" />
+                  <TextField fx:id="spaceNumberField" promptText="Ej.: 8" />
+                  <Label styleClass="field-label" text="Tipo" />
+                  <ComboBox fx:id="spaceTypeCombo" maxWidth="Infinity" promptText="Seleccione el tipo" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onRegisterSpace" styleClass="primary-button" text="Registrar espacio" />
+                  <Label styleClass="card-title" text="Servicio del espacio seleccionado">
+                     <VBox.margin>
+                        <javafx.geometry.Insets top="14.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label styleClass="hint" text="Selecciona un espacio de la tabla. Solo se puede poner fuera de servicio un espacio disponible." wrapText="true" />
+                  <HBox spacing="8.0">
+                     <children>
+                        <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onPutOutOfService" styleClass="danger-button" text="Fuera de servicio" HBox.hgrow="ALWAYS" />
+                        <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onRestoreService" styleClass="ghost-button" text="Restaurar" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox maxWidth="Infinity" spacing="10.0" styleClass="card" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label maxWidth="Infinity" styleClass="card-title" text="Espacios del parqueo" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="countLabel" styleClass="muted" />
+                     </children>
+                  </HBox>
+                  <TableView fx:id="spacesTable" VBox.vgrow="ALWAYS">
+                     <placeholder>
+                        <Label text="Todavía no hay espacios registrados" />
+                     </placeholder>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

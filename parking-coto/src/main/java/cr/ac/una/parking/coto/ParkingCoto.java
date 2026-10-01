@@ -1,54 +1,82 @@
 package cr.ac.una.parking.coto;
 
-import cr.ac.una.parking.coto.enums.PaymentType;
-import cr.ac.una.parking.coto.enums.SpaceType;
-import cr.ac.una.parking.coto.model.Car;
-import cr.ac.una.parking.coto.model.ParkingSpace;
-import cr.ac.una.parking.coto.model.ParkingTicket;
-import java.time.LocalDateTime;
+import cr.ac.una.parking.coto.scenario.ScenarioResult;
+import cr.ac.una.parking.coto.scenario.ScenarioRunner;
+import cr.ac.una.parking.coto.ui.ParkingApp;
+import java.util.Arrays;
+import java.util.List;
+import javafx.application.Application;
 
 /**
  * Main entry point for the Parking Coto parking management system.
  *
- * <p>This class demonstrates a minimal working flow of the parking lot by
- * registering a vehicle, assigning an available compatible space, closing the
- * ticket, and registering the payment. It is intended as a simple execution
- * example for testing and demonstration purposes.</p>
+ * <p>Without arguments it opens the JavaFX application. With {@code --console}
+ * it runs the demonstration scenarios and prints them as text, and with
+ * {@code --markdown} it prints them as a Markdown table, which is how the
+ * test table of the report is produced. The text mode needs no graphics, so it
+ * also works as a fallback where JavaFX is not available.</p>
  *
  * @author Carolain Quesada and Ashly Delgado
- * @version 1.0
+ * @version 2.0
  */
 public class ParkingCoto {
 
     /**
-     * Creates the example application entry point.
+     * Creates the application entry point.
      */
     public ParkingCoto() {
     }
 
     /**
-     * Runs a small example scenario for the parking system.
+     * Starts the program.
      *
-     * <p>The process registers a car, allocates a compatible parking space,
-     * closes the ticket after a defined period, and records the payment.</p>
-     *
-     * @param args command-line arguments, not used by the example execution
+     * @param args {@code --console} prints the scenarios as text, {@code --markdown}
+     *             prints them as a Markdown table, no arguments opens the window
      */
     public static void main(String[] args) {
-        ParkingLot parkingLot = new ParkingLot();
-        parkingLot.registerSpace(new ParkingSpace(1, SpaceType.CAR));
-        parkingLot.registerSpace(new ParkingSpace(2, SpaceType.MOTORCYCLE));
-        parkingLot.registerSpace(new ParkingSpace(3, SpaceType.FREIGHT));
+        List<String> options = Arrays.asList(args);
+        if (options.contains("--markdown")) {
+            printMarkdown(new ScenarioRunner().runAll());
+        } else if (options.contains("--console")) {
+            printText(new ScenarioRunner().runAll());
+        } else {
+            Application.launch(ParkingApp.class, args);
+        }
+    }
 
-        Car car = new Car("B123456", "Toyota", "Corolla", "Blanco");
-        parkingLot.registerVehicle(car);
+    /**
+     * Prints every scenario as plain text.
+     *
+     * @param results scenario results to print
+     */
+    private static void printText(List<ScenarioResult> results) {
+        int passed = 0;
+        for (ScenarioResult result : results) {
+            System.out.println(result.getNumber() + ". [" + result.getCategory() + "] " + result.getName());
+            System.out.println("   Entrada:  " + result.getInput());
+            System.out.println("   Esperado: " + result.getExpected());
+            System.out.println("   Obtenido: " + result.getObtained());
+            System.out.println("   " + (result.isPassed() ? "CORRECTO" : "FALLA"));
+            System.out.println();
+            if (result.isPassed()) {
+                passed++;
+            }
+        }
+        System.out.println(passed + " de " + results.size() + " casos correctos");
+    }
 
-        ParkingTicket ticket = parkingLot.registerEntry(car, LocalDateTime.of(2026, 9, 30, 8, 0));
-        ticket.close(LocalDateTime.of(2026, 9, 30, 10, 0));
-        parkingLot.registerPayment(ticket, PaymentType.CASH, LocalDateTime.of(2026, 9, 30, 10, 5));
-
-        System.out.println("Ticket #" + ticket.getId());
-        System.out.println("Monto: ₡" + ticket.getAmount());
-        System.out.println("Ingreso total: ₡" + parkingLot.getTotalIncome());
+    /**
+     * Prints every scenario as a Markdown table.
+     *
+     * @param results scenario results to print
+     */
+    private static void printMarkdown(List<ScenarioResult> results) {
+        System.out.println("| # | Tipo | Caso | Entrada | Resultado esperado | Resultado obtenido | Veredicto |");
+        System.out.println("|---|---|---|---|---|---|---|");
+        for (ScenarioResult result : results) {
+            System.out.println("| " + result.getNumber() + " | " + result.getCategory() + " | " + result.getName()
+                    + " | " + result.getInput() + " | " + result.getExpected() + " | " + result.getObtained()
+                    + " | " + (result.isPassed() ? "Correcto" : "Falla") + " |");
+        }
     }
 }

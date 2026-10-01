@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14.0" styleClass="view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.TicketsController">
+   <children>
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label styleClass="view-title" text="Tickets" />
+                  <Label styleClass="view-subtitle" text="Tickets activos y el historial completo con cerrados y pagados." />
+               </children>
+            </VBox>
+            <Label fx:id="countLabel" styleClass="chip" />
+         </children>
+      </HBox>
+      <VBox styleClass="card" VBox.vgrow="ALWAYS">
+         <children>
+            <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+               <tabs>
+                  <Tab text="Tickets activos">
+                     <content>
+                        <TableView fx:id="activeTable">
+                           <placeholder>
+                              <Label text="No hay tickets activos" />
+                           </placeholder>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab text="Historial de tickets">
+                     <content>
+                        <TableView fx:id="historyTable">
+                           <placeholder>
+                              <Label text="Todavía no se ha generado ningún ticket" />
+                           </placeholder>
+                        </TableView>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
+</VBox>

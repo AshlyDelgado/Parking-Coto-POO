@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane styleClass="app-root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.MainController">
+   <left>
+      <VBox prefWidth="250.0" spacing="8.0" styleClass="sidebar">
+         <fx:define>
+            <ToggleGroup fx:id="navigation" />
+         </fx:define>
+         <children>
+            <VBox alignment="CENTER" spacing="4.0" styleClass="brand">
+               <children>
+                  <StackPane fx:id="logoHolder" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="84.0" minWidth="84.0" styleClass="logo-badge" />
+                  <Label styleClass="brand-title" text="ParkingCoto" />
+                  <Label styleClass="brand-subtitle" text="Gestión de parqueos" />
+               </children>
+            </VBox>
+            <ToggleButton fx:id="dashboardButton" maxWidth="Infinity" mnemonicParsing="false" selected="true" styleClass="nav-button" text="Dashboard" toggleGroup="$navigation" />
+            <ToggleButton fx:id="vehiclesButton" maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Vehículos" toggleGroup="$navigation" />
+            <ToggleButton fx:id="spacesButton" maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Espacios" toggleGroup="$navigation" />
+            <ToggleButton fx:id="entryButton" maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Registrar ingreso" toggleGroup="$navigation" />
+            <ToggleButton fx:id="exitButton" maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Registrar salida" toggleGroup="$navigation" />
+            <ToggleButton fx:id="paymentButton" maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Registrar pago" toggleGroup="$navigation" />
+            <ToggleButton fx:id="ticketsButton" maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Tickets" toggleGroup="$navigation" />
+            <ToggleButton fx:id="reportsButton" maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Consultas y reportes" toggleGroup="$navigation" />
+            <ToggleButton fx:id="scenariosButton" maxWidth="Infinity" mnemonicParsing="false" styleClass="nav-button" text="Casos de prueba" toggleGroup="$navigation" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox>
+         <children>
+            <HBox alignment="CENTER_LEFT" styleClass="banner">
+               <children>
+                  <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="banner-title" text="ParkingCoto" />
+                        <Label styleClass="banner-subtitle" text="Sistema de gestión de parqueos" />
+                        <Label fx:id="dateLabel" styleClass="banner-date" />
+                     </children>
+                  </VBox>
+                  <StackPane fx:id="bannerArt" />
+               </children>
+            </HBox>
+            <StackPane VBox.vgrow="ALWAYS">
+               <children>
+                  <fx:include fx:id="dashboardView" source="DashboardView.fxml" />
+                  <fx:include fx:id="vehiclesView" source="VehiclesView.fxml" />
+                  <fx:include fx:id="spacesView" source="SpacesView.fxml" />
+                  <fx:include fx:id="entryView" source="EntryView.fxml" />
+                  <fx:include fx:id="exitView" source="ExitView.fxml" />
+                  <fx:include fx:id="paymentView" source="PaymentView.fxml" />
+                  <fx:include fx:id="ticketsView" source="TicketsView.fxml" />
+                  <fx:include fx:id="reportsView" source="ReportsView.fxml" />
+                  <fx:include fx:id="scenariosView" source="ScenariosView.fxml" />
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

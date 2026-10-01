@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14.0" styleClass="view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.ExitController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label styleClass="view-title" text="Registrar salida" />
+            <Label styleClass="view-subtitle" text="Cierra el ticket activo, calcula las horas cobradas y el monto, y libera el espacio." />
+         </children>
+      </VBox>
+      <Label fx:id="feedbackLabel" maxWidth="Infinity" />
+      <HBox>
+         <children>
+            <VBox maxWidth="680.0" prefWidth="680.0" spacing="8.0" styleClass="card">
+               <children>
+                  <Label styleClass="field-label" text="Vehículo" />
+                  <ComboBox fx:id="vehicleCombo" maxWidth="Infinity" promptText="Seleccione un vehículo" />
+                  <Label fx:id="entryInfoLabel" styleClass="chip" />
+                  <Label styleClass="field-label" text="Fecha y hora de salida" />
+                  <HBox alignment="CENTER_LEFT" spacing="8.0">
+                     <children>
+                        <DatePicker fx:id="datePicker" prefWidth="160.0" />
+                        <TextField fx:id="timeField" prefWidth="80.0" promptText="HH:mm" />
+                        <Button mnemonicParsing="false" onAction="#onNow" styleClass="ghost-button" text="Ahora" />
+                     </children>
+                  </HBox>
+                  <Label styleClass="hint" text="Atajos: pone la salida a este tiempo después de la entrada del ticket activo." />
+                  <FlowPane hgap="8.0" vgap="8.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onQuickExit" styleClass="ghost-button" text="+1 min" userData="1" />
+                        <Button mnemonicParsing="false" onAction="#onQuickExit" styleClass="ghost-button" text="+60 min" userData="60" />
+                        <Button mnemonicParsing="false" onAction="#onQuickExit" styleClass="ghost-button" text="+61 min" userData="61" />
+                        <Button mnemonicParsing="false" onAction="#onQuickExit" styleClass="ghost-button" text="+2 h" userData="120" />
+                        <Button mnemonicParsing="false" onAction="#onQuickExit" styleClass="ghost-button" text="+11 h" userData="660" />
+                        <Button mnemonicParsing="false" onAction="#onQuickExit" styleClass="ghost-button" text="+25 h" userData="1500" />
+                     </children>
+                  </FlowPane>
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#onRegisterExit" styleClass="primary-button" text="Registrar salida" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

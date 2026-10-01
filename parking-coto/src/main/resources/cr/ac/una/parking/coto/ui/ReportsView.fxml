@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="14.0" styleClass="view" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.parking.coto.ui.ReportsController">
+   <children>
+      <VBox spacing="2.0">
+         <children>
+            <Label styleClass="view-title" text="Consultas y reportes" />
+            <Label styleClass="view-subtitle" text="Ingresos, ocupación, vehículos dentro, espacios disponibles y pagos." />
+         </children>
+      </VBox>
+      <HBox spacing="16.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="card">
+               <children>
+                  <Label styleClass="card-title" text="Ingresos totales" />
+                  <Label fx:id="incomeLabel" styleClass="kpi-value-small" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="10.0" styleClass="card" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label styleClass="card-title" text="Ocupación por tipo (ocupados/total)" />
+                  <Label fx:id="occupancyLabel" styleClass="kpi-value-small" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <VBox styleClass="card" VBox.vgrow="ALWAYS">
+         <children>
+            <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+               <tabs>
+                  <Tab text="Vehículos dentro del parqueo">
+                     <content>
+                        <TableView fx:id="insideTable">
+                           <placeholder>
+                              <Label text="No hay vehículos dentro del parqueo" />
+                           </placeholder>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab text="Espacios disponibles">
+                     <content>
+                        <TableView fx:id="availableTable">
+                           <placeholder>
+                              <Label text="No hay espacios disponibles" />
+                           </placeholder>
+                        </TableView>
+                     </content>
+                  </Tab>
+                  <Tab text="Pagos">
+                     <content>
+                        <TableView fx:id="paymentsTable">
+                           <placeholder>
+                              <Label text="Todavía no se ha registrado ningún pago" />
+                           </placeholder>
+                        </TableView>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </children>
+</VBox>
