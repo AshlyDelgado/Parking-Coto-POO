@@ -143,13 +143,30 @@ final class UiSupport {
     }
 
     /**
+     * Adds a text column that never gets narrower than a minimum width, so
+     * long texts such as "Vehículo de carga" are not cut.
+     *
+     * @param <S> type of the rows
+     * @param table table receiving the column
+     * @param title column header
+     * @param width preferred width
+     * @param minWidth narrowest width the column may take
+     * @param text function that produces the cell text of a row
+     */
+    static <S> void addColumn(TableView<S> table, String title, double width, double minWidth,
+                              Function<S, String> text) {
+        addColumn(table, title, width, text);
+        table.getColumns().get(table.getColumns().size() - 1).setMinWidth(minWidth);
+    }
+
+    /**
      * Adds the vehicle columns to a table.
      *
      * @param table table of vehicles
      */
     static void addVehicleColumns(TableView<Vehicle> table) {
         addColumn(table, "Placa", 90, Vehicle::getPlate);
-        addColumn(table, "Tipo", 150, vehicle -> vehicle.getType().getDisplayName());
+        addColumn(table, "Tipo", 150, 140, vehicle -> vehicle.getType().getDisplayName());
         addColumn(table, "Marca", 100, Vehicle::getBrand);
         addColumn(table, "Modelo", 100, Vehicle::getModel);
         addColumn(table, "Color", 80, Vehicle::getColor);
@@ -174,7 +191,7 @@ final class UiSupport {
     static void addTicketColumns(TableView<ParkingTicket> table) {
         addColumn(table, "Ticket", 60, ticket -> String.valueOf(ticket.getId()));
         addColumn(table, "Placa", 90, ticket -> ticket.getVehicle().getPlate());
-        addColumn(table, "Tipo", 150, ticket -> ticket.getVehicle().getType().getDisplayName());
+        addColumn(table, "Tipo", 150, 140, ticket -> ticket.getVehicle().getType().getDisplayName());
         addColumn(table, "Espacio", 70, ticket -> String.valueOf(ticket.getSpace().getNumber()));
         addColumn(table, "Entrada", 130, ticket -> dateTime(ticket.getEntryTime()));
         addColumn(table, "Salida", 130, ticket -> dateTime(ticket.getExitTime()));
