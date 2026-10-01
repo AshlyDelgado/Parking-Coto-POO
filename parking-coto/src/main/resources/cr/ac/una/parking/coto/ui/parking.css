@@ -106,11 +106,6 @@
     -fx-font-size: 14px;
 }
 
-.banner-date {
-    -fx-text-fill: #9db6dc;
-    -fx-font-size: 12px;
-}
-
 /* ---------- Pantallas y tarjetas ---------- */
 
 .view {

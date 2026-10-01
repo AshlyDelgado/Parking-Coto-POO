@@ -1,10 +1,7 @@
 package cr.ac.una.parking.coto.ui;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -36,10 +33,6 @@ public class MainController {
     public MainController() {
     }
 
-    /** Format of the date shown in the banner. */
-    private static final DateTimeFormatter DATE_FORMAT =
-            DateTimeFormatter.ofPattern("EEEE d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("es-CR"));
-
     /** One screen of the side menu: what is shown and what reloads it. */
     private static final class Screen {
         /** Root node of the screen. */
@@ -59,7 +52,6 @@ public class MainController {
     @FXML private ToggleGroup navigation;
     @FXML private StackPane logoHolder;
     @FXML private StackPane bannerArt;
-    @FXML private Label dateLabel;
     @FXML private ToggleButton dashboardButton;
     @FXML private ToggleButton vehiclesButton;
     @FXML private ToggleButton spacesButton;
@@ -109,8 +101,6 @@ public class MainController {
         });
         show(dashboardButton);
 
-        String today = LocalDate.now().format(DATE_FORMAT);
-        dateLabel.setText(Character.toUpperCase(today.charAt(0)) + today.substring(1));
         drawLogo();
         drawBannerArt();
     }

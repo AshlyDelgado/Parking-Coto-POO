@@ -43,7 +43,6 @@
                      <children>
                         <Label styleClass="banner-title" text="ParkingCoto" />
                         <Label styleClass="banner-subtitle" text="Sistema de gestión de parqueos" />
-                        <Label fx:id="dateLabel" styleClass="banner-date" />
                      </children>
                   </VBox>
                   <StackPane fx:id="bannerArt" />
