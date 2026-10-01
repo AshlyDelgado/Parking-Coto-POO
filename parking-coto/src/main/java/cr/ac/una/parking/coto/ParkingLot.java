@@ -130,6 +130,9 @@ public class ParkingLot {
         if (vehicle == null) {
             throw new ParkingException("El vehículo no puede ser nulo");
         }
+        if (entryTime == null) {
+            throw new ParkingException("La fecha de entrada no puede ser nula");
+        }
         if (!vehicles.containsKey(vehicle.getPlate())) {
             throw new RecordNotFoundException("El vehículo no está registrado");
         }
@@ -172,6 +175,9 @@ public class ParkingLot {
         if (space == null) {
             throw new ParkingException("El espacio no puede ser nulo");
         }
+        if (entryTime == null) {
+            throw new ParkingException("La fecha de entrada no puede ser nula");
+        }
         if (!vehicles.containsKey(vehicle.getPlate())) {
             throw new RecordNotFoundException("El vehículo no está registrado");
         }
@@ -205,7 +211,7 @@ public class ParkingLot {
      * @param exitTime exit timestamp
      * @return the closed parking ticket
      * @throws ParkingException if the vehicle reference is null
-     * @throws ActiveTicketException if there is no active ticket for the vehicle
+     * @throws RecordNotFoundException if there is no active ticket for the vehicle
      */
     public ParkingTicket registerExit(Vehicle vehicle, LocalDateTime exitTime) {
         if (vehicle == null) {
@@ -213,7 +219,7 @@ public class ParkingLot {
         }
         ParkingTicket activeTicket = findActiveTicket(vehicle);
         if (activeTicket == null) {
-            throw new ActiveTicketException("No existe un ticket activo para ese vehículo");
+            throw new RecordNotFoundException("No existe un ticket activo para ese vehículo");
         }
 
         activeTicket.close(exitTime);
@@ -252,7 +258,7 @@ public class ParkingLot {
         if (!exists) {
             throw new RecordNotFoundException("El ticket no está registrado");
         }
-        if (ticket.getStatus() == TicketStatus.ACTIVE) {
+        if (ticket.isActive()) {
             throw new InvalidTicketStateException("No se puede pagar un ticket activo");
         }
         if (ticket.getStatus() == TicketStatus.PAID) {
@@ -273,7 +279,7 @@ public class ParkingLot {
     public List<ParkingTicket> getActiveTickets() {
         List<ParkingTicket> activeTickets = new ArrayList<ParkingTicket>();
         for (ParkingTicket ticket : tickets) {
-            if (ticket.getStatus() == TicketStatus.ACTIVE) {
+            if (ticket.isActive()) {
                 activeTickets.add(ticket);
             }
         }
@@ -283,13 +289,12 @@ public class ParkingLot {
     /**
      * Returns the vehicles that are currently inside the parking lot.
      *
-     * @return read-only list of vehicles that still have an active or recently
-     *         closed ticket in process
+     * @return read-only list of vehicles that still have an active ticket
      */
     public List<Vehicle> getVehiclesInside() {
         List<Vehicle> vehiclesInside = new ArrayList<Vehicle>();
         for (ParkingTicket ticket : tickets) {
-            if (ticket.getStatus() == TicketStatus.ACTIVE || ticket.getStatus() == TicketStatus.CLOSED) {
+            if (ticket.isActive()) {
                 vehiclesInside.add(ticket.getVehicle());
             }
         }
@@ -368,7 +373,7 @@ public class ParkingLot {
     private ParkingTicket findActiveTicket(Vehicle vehicle) {
         for (ParkingTicket ticket : tickets) {
             if (ticket.getVehicle().getPlate().equals(vehicle.getPlate())
-                    && ticket.getStatus() == TicketStatus.ACTIVE) {
+                    && ticket.isActive()) {
                 return ticket;
             }
         }

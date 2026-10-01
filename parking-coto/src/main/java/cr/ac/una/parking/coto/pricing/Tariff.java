@@ -1,83 +1,83 @@
 package cr.ac.una.parking.coto.pricing;
 
 /**
- * Implements the pricing policy for the parking system.
+ * Implements the hourly pricing of the parking system.
  *
- * <p>The tariff defines the hourly rate and the maximum daily cap for each
- * vehicle category. Once a stay exceeds the threshold of ten hours, the
- * calculation switches to cumulative daily periods instead of charging the
- * remaining hours linearly.</p>
+ * <p>This class is the only place where the hourly rates and the daily caps of
+ * every vehicle category are defined. A {@code Tariff} only knows how to
+ * charge by the hour; the daily cap is applied by wrapping it in a
+ * {@link DailyCapPolicy}, so each rule can change independently of the
+ * other.</p>
  *
  * @author Carolain Quesada and Ashly Delgado
- * @version 1.0
+ * @version 1.1
  */
 public class Tariff implements PricingPolicy {
 
-    /** Minimum hourly threshold before the daily-cap logic is applied. */
-    public static final int CAP_THRESHOLD_HOURS = 10;
-    /** Number of hours considered in a billing cycle for the cap calculation. */
-    public static final int PERIOD_HOURS = 24;
+    /** Hourly rate for motorcycles. */
+    private static final double MOTORCYCLE_HOURLY_RATE = 500.0;
+    /** Hourly rate for cars. */
+    private static final double CAR_HOURLY_RATE = 900.0;
+    /** Hourly rate for freight vehicles. */
+    private static final double FREIGHT_HOURLY_RATE = 1500.0;
 
-    /** Rate charged for each hour before the cap threshold. */
+    /** Maximum charge per daily period for motorcycles. */
+    private static final double MOTORCYCLE_DAILY_CAP = 4000.0;
+    /** Maximum charge per daily period for cars. */
+    private static final double CAR_DAILY_CAP = 7000.0;
+    /** Maximum charge per daily period for freight vehicles. */
+    private static final double FREIGHT_DAILY_CAP = 11000.0;
+
+    /** Rate charged for each hour of stay. */
     private final double hourlyRate;
-    /** Maximum charge for a daily billing period. */
-    private final double dailyCap;
 
     /**
-     * Builds a tariff for a specific vehicle category.
+     * Builds a plain hourly tariff.
      *
-     * @param hourlyRate rate per hour for the category
-     * @param dailyCap maximum charge for a full billing period
+     * @param hourlyRate rate charged per hour
      */
-    private Tariff(double hourlyRate, double dailyCap) {
+    private Tariff(double hourlyRate) {
         this.hourlyRate = hourlyRate;
-        this.dailyCap = dailyCap;
     }
 
     /**
-     * Returns the tariff configuration for motorcycles.
+     * Returns the complete pricing policy for motorcycles.
      *
-     * @return motorcycle tariff
+     * @return hourly tariff for motorcycles with its daily cap applied
      */
-    public static Tariff forMotorcycle() {
-        return new Tariff(500.0, 4000.0);
+    public static PricingPolicy forMotorcycle() {
+        return new DailyCapPolicy(new Tariff(MOTORCYCLE_HOURLY_RATE), MOTORCYCLE_DAILY_CAP);
     }
 
     /**
-     * Returns the tariff configuration for cars.
+     * Returns the complete pricing policy for cars.
      *
-     * @return car tariff
+     * @return hourly tariff for cars with its daily cap applied
      */
-    public static Tariff forCar() {
-        return new Tariff(900.0, 7000.0);
+    public static PricingPolicy forCar() {
+        return new DailyCapPolicy(new Tariff(CAR_HOURLY_RATE), CAR_DAILY_CAP);
     }
 
     /**
-     * Returns the tariff configuration for freight vehicles.
+     * Returns the complete pricing policy for freight vehicles.
      *
-     * @return freight tariff
+     * @return hourly tariff for freight vehicles with its daily cap applied
      */
-    public static Tariff forFreight() {
-        return new Tariff(1500.0, 11000.0);
+    public static PricingPolicy forFreight() {
+        return new DailyCapPolicy(new Tariff(FREIGHT_HOURLY_RATE), FREIGHT_DAILY_CAP);
     }
 
     /**
-     * Calculates the amount for the supplied charged hours.
+     * Calculates the plain hourly amount for the supplied charged hours.
      *
-     * @param chargedHours number of hours used to calculate the fee
-     * @return total billed amount for the stay
+     * @param chargedHours number of hours to charge
+     * @return hours multiplied by the hourly rate, or zero if there are no hours
      */
     @Override
     public double calculate(int chargedHours) {
         if (chargedHours <= 0) {
             return 0.0;
         }
-
-        if (chargedHours < CAP_THRESHOLD_HOURS) {
-            return chargedHours * hourlyRate;
-        }
-
-        int dailyPeriods = (chargedHours + PERIOD_HOURS - 1) / PERIOD_HOURS;
-        return dailyPeriods * dailyCap;
+        return chargedHours * hourlyRate;
     }
 }

@@ -5,6 +5,9 @@ import cr.ac.una.parking.coto.enums.SpaceStatus;
 import cr.ac.una.parking.coto.enums.SpaceType;
 import cr.ac.una.parking.coto.enums.TicketStatus;
 import cr.ac.una.parking.coto.exception.ActiveTicketException;
+import cr.ac.una.parking.coto.exception.InvalidTicketStateException;
+import cr.ac.una.parking.coto.exception.ParkingException;
+import cr.ac.una.parking.coto.exception.RecordNotFoundException;
 import cr.ac.una.parking.coto.exception.SpaceNotAvailableException;
 import cr.ac.una.parking.coto.model.Car;
 import cr.ac.una.parking.coto.model.FreightVehicle;
@@ -122,7 +125,7 @@ class ParkingLotTest {
         Vehicle car = new Car("S555444", "Honda", "Civic", "Azul");
         parkingLot.registerVehicle(car);
 
-        assertThrows(ActiveTicketException.class,
+        assertThrows(RecordNotFoundException.class,
                 () -> parkingLot.registerExit(car, LocalDateTime.of(2026, 9, 30, 10, 0)));
     }
 
@@ -217,5 +220,103 @@ class ParkingLotTest {
 
         assertEquals(1, vehicles.size());
         assertEquals("L333444", vehicles.get(0).getPlate());
+    }
+
+    @Test
+    void shouldRejectPaymentOfActiveTicket() {
+        Vehicle car = new Car("W111222", "Suzuki", "Swift", "Rojo");
+        parkingLot.registerVehicle(car);
+        ParkingTicket ticket = parkingLot.registerEntry(car, LocalDateTime.of(2026, 9, 30, 8, 0));
+
+        assertThrows(InvalidTicketStateException.class,
+                () -> parkingLot.registerPayment(ticket, PaymentType.CASH, LocalDateTime.of(2026, 9, 30, 8, 30)));
+        assertEquals(TicketStatus.ACTIVE, ticket.getStatus());
+        assertEquals(0.0, parkingLot.getTotalIncome(), 0.001);
+    }
+
+    @Test
+    void shouldNotListVehicleInsideAfterExit() {
+        Vehicle car = new Car("E444555", "Kia", "Soul", "Verde");
+        parkingLot.registerVehicle(car);
+        parkingLot.registerEntry(car, LocalDateTime.of(2026, 9, 30, 8, 0));
+        assertEquals(1, parkingLot.getVehiclesInside().size());
+
+        parkingLot.registerExit(car, LocalDateTime.of(2026, 9, 30, 9, 0));
+
+        assertTrue(parkingLot.getVehiclesInside().isEmpty());
+        assertTrue(parkingLot.getActiveTickets().isEmpty());
+    }
+
+    @Test
+    void shouldAllowSameVehicleToEnterAgainAfterExit() {
+        Vehicle car = new Car("R999000", "Ford", "Fiesta", "Azul");
+        parkingLot.registerVehicle(car);
+        parkingLot.registerEntry(car, LocalDateTime.of(2026, 9, 30, 8, 0));
+        parkingLot.registerExit(car, LocalDateTime.of(2026, 9, 30, 9, 0));
+
+        ParkingTicket secondTicket = parkingLot.registerEntry(car, LocalDateTime.of(2026, 9, 30, 10, 0));
+
+        assertEquals(TicketStatus.ACTIVE, secondTicket.getStatus());
+        assertEquals(1, parkingLot.getVehiclesInside().size());
+    }
+
+    @Test
+    void shouldChargeEachVehicleTypeWithItsOwnRate() {
+        Vehicle car = new Car("Z100100", "Toyota", "Rav4", "Gris");
+        Vehicle bike = new Motorcycle("Z200200", "Honda", "Navi", "Rojo");
+        Vehicle truck = new FreightVehicle("Z300300", "Isuzu", "NPR", "Blanco");
+        parkingLot.registerVehicle(car);
+        parkingLot.registerVehicle(bike);
+        parkingLot.registerVehicle(truck);
+        LocalDateTime entry = LocalDateTime.of(2026, 9, 30, 8, 0);
+
+        ParkingTicket carTicket = parkingLot.registerEntry(car, entry);
+        ParkingTicket bikeTicket = parkingLot.registerEntry(bike, entry);
+        ParkingTicket truckTicket = parkingLot.registerEntry(truck, entry);
+        carTicket.close(entry.plusHours(2));
+        bikeTicket.close(entry.plusHours(2));
+        truckTicket.close(entry.plusHours(2));
+
+        assertEquals(1800.0, carTicket.getAmount(), 0.001);
+        assertEquals(1000.0, bikeTicket.getAmount(), 0.001);
+        assertEquals(3000.0, truckTicket.getAmount(), 0.001);
+    }
+
+    @Test
+    void shouldApplyDailyCapToMotorcycleAndFreightVehicle() {
+        Vehicle bike = new Motorcycle("Y100100", "Yamaha", "FZ", "Negro");
+        Vehicle truck = new FreightVehicle("Y200200", "Hino", "300", "Rojo");
+        parkingLot.registerVehicle(bike);
+        parkingLot.registerVehicle(truck);
+        LocalDateTime entry = LocalDateTime.of(2026, 9, 30, 6, 0);
+
+        ParkingTicket bikeTicket = parkingLot.registerEntry(bike, entry);
+        ParkingTicket truckTicket = parkingLot.registerEntry(truck, entry);
+        bikeTicket.close(entry.plusHours(11));
+        truckTicket.close(entry.plusHours(11));
+
+        assertEquals(4000.0, bikeTicket.getAmount(), 0.001);
+        assertEquals(11000.0, truckTicket.getAmount(), 0.001);
+    }
+
+    @Test
+    void shouldKeepSpaceAvailableWhenEntryTimeIsNull() {
+        Vehicle car = new Car("N000111", "Mazda", "2", "Plata");
+        parkingLot.registerVehicle(car);
+        int availableBefore = parkingLot.getAvailableSpaces().size();
+
+        assertThrows(ParkingException.class, () -> parkingLot.registerEntry(car, null));
+
+        assertEquals(availableBefore, parkingLot.getAvailableSpaces().size());
+    }
+
+    @Test
+    void shouldCountOccupancyByType() {
+        Vehicle car = new Car("O111222", "Nissan", "Kicks", "Blanco");
+        parkingLot.registerVehicle(car);
+        parkingLot.registerEntry(car, LocalDateTime.of(2026, 9, 30, 8, 0));
+
+        assertEquals(Integer.valueOf(1), parkingLot.getOccupancyByType().get(SpaceType.CAR));
+        assertNull(parkingLot.getOccupancyByType().get(SpaceType.MOTORCYCLE));
     }
 }

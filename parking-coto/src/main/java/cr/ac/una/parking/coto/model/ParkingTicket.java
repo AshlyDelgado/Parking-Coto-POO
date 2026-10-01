@@ -126,6 +126,40 @@ public class ParkingTicket {
     }
 
     /**
+     * Indicates whether the ticket is still active, that is, whether the
+     * vehicle is currently inside the parking lot.
+     *
+     * @return {@code true} if the ticket status is {@code ACTIVE}
+     */
+    public boolean isActive() {
+        return status == TicketStatus.ACTIVE;
+    }
+
+    /**
+     * Calculates how long the vehicle stayed, in whole minutes.
+     *
+     * @param exitTime time at which the vehicle leaves the parking lot
+     * @return minutes elapsed between the entry and the supplied exit time
+     */
+    public long calculateStayMinutes(LocalDateTime exitTime) {
+        return Duration.between(entryTime, exitTime).toMinutes();
+    }
+
+    /**
+     * Calculates the hours to charge for the stay. Any fraction of an hour is
+     * charged as a complete hour.
+     *
+     * @param exitTime time at which the vehicle leaves the parking lot
+     * @return charged hours, or zero if the stay has no duration
+     */
+    public int calculateChargedHours(LocalDateTime exitTime) {
+        Duration stay = Duration.between(entryTime, exitTime);
+        long wholeHours = stay.toHours();
+        boolean hasPartialHour = !stay.minusHours(wholeHours).isZero();
+        return (int) (hasPartialHour ? wholeHours + 1 : wholeHours);
+    }
+
+    /**
      * Closes the active ticket and calculates the corresponding amount.
      *
      * @param exitTime time at which the vehicle leaves the parking lot
@@ -140,9 +174,7 @@ public class ParkingTicket {
             throw new ParkingException("La salida no puede ser anterior a la entrada");
         }
 
-        long minutes = Duration.between(entryTime, exitTime).toMinutes();
-        int chargedHours = minutes <= 0 ? 0 : (int) Math.ceil(minutes / 60.0);
-        this.amount = vehicle.calculateFee(chargedHours);
+        this.amount = vehicle.calculateFee(calculateChargedHours(exitTime));
         this.exitTime = exitTime;
         this.status = TicketStatus.CLOSED;
         space.release();
