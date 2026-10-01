@@ -34,7 +34,7 @@ public class ScenariosController implements Refreshable {
 
     @FXML
     private void initialize() {
-        resultsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+        resultsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         addColumn("N.º", 40, false, result -> String.valueOf(result.getNumber()));
         addColumn("Tipo", 100, false, ScenarioResult::getCategory);
         addColumn("Caso", 170, true, ScenarioResult::getName);

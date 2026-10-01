@@ -138,7 +138,7 @@ final class UiSupport {
         TableColumn<S, String> column = new TableColumn<S, String>(title);
         column.setPrefWidth(width);
         column.setCellValueFactory(cell -> new SimpleStringProperty(text.apply(cell.getValue())));
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.getColumns().add(column);
     }
 
