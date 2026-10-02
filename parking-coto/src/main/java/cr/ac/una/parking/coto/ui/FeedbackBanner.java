@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
  * Message shown inside a screen after each operation: green when the
  * operation worked, red when a business rule rejected it.
  *
- * <p>For a rejected operation it shows the name of the exception thrown by
- * the domain, so it is clear which rule was applied.</p>
+ * <p>For a rejected operation it shows only the message of the exception
+ * thrown by the domain.</p>
  *
  * @author Carolain Quesada and Ashly Delgado
  * @version 1.0
@@ -35,7 +35,7 @@ final class FeedbackBanner {
      * @param message text to show
      */
     void success(String message) {
-        show("✔  " + message, "feedback-ok");
+        show(message, "feedback-ok");
     }
 
     /**
@@ -44,11 +44,11 @@ final class FeedbackBanner {
      * @param error exception thrown by the domain or by the validation of the form
      */
     void error(RuntimeException error) {
-        show("✘  " + ruleOf(error) + " · " + error.getMessage(), "feedback-error");
+        show(error.getMessage(), "feedback-error");
     }
 
     /**
-     * Names the rule that rejected an operation.
+     * Names the rule that rejected an operation, for the activity log.
      *
      * @param error exception thrown by the domain or by the validation of the form
      * @return the exception class name for business rules, or a generic title for bad input
