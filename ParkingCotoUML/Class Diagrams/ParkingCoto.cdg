@@ -91,13 +91,6 @@
         </Method>
       </Methods>
     </Class>
-    <Interface name="PricingPolicy" package="" visibility="public" xPosition="2870.0" yPosition="1070.0">
-      <Methods>
-        <Method name="calculate" returnType="double" visibility="public">
-          <Argument type="int" name="chargedHours"/>
-        </Method>
-      </Methods>
-    </Interface>
     <Class name="Tariff" package="" visibility="public" xPosition="2640.0" yPosition="1220.0">
       <Fields>
         <Field name="MOTORCYCLE_HOURLY_RATE" type="double" visibility="private" isStatic="true" isFinal="true"/>
@@ -238,7 +231,7 @@
         <Method name="getType" returnType="PaymentType" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ParkingLot" package="" visibility="public" xPosition="160.0" yPosition="620.0">
+    <Class name="ParkingLot" package="" visibility="public" xPosition="127.0" yPosition="625.0">
       <Fields>
         <Field name="vehicles" type="Map&lt;String, Vehicle&gt;" visibility="private"/>
         <Field name="spaces" type="Map&lt;Integer, ParkingSpace&gt;" visibility="private"/>
@@ -302,101 +295,6 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="ScenarioRunner" package="" visibility="public" xPosition="1520.0" yPosition="680.0">
-      <Fields>
-        <Field name="nextNumber" type="int" visibility="private"/>
-      </Fields>
-      <Constructors/>
-      <Methods>
-        <Method name="runAll" returnType="List&lt;ScenarioResult&gt;" visibility="public"/>
-      </Methods>
-    </Class>
-    <Class name="ScenarioResult" package="" visibility="public" xPosition="1410.0" yPosition="890.0">
-      <Fields>
-        <Field name="number" type="int" visibility="private"/>
-        <Field name="category" type="String" visibility="private"/>
-        <Field name="name" type="String" visibility="private"/>
-        <Field name="input" type="String" visibility="private"/>
-        <Field name="expected" type="String" visibility="private"/>
-        <Field name="obtained" type="String" visibility="private"/>
-        <Field name="passed" type="boolean" visibility="private"/>
-      </Fields>
-      <Constructors>
-        <Constructor visibility="public">
-          <Argument type="int" name="number"/>
-          <Argument type="String" name="category"/>
-          <Argument type="String" name="name"/>
-          <Argument type="String" name="input"/>
-          <Argument type="String" name="expected"/>
-          <Argument type="String" name="obtained"/>
-          <Argument type="boolean" name="passed"/>
-        </Constructor>
-      </Constructors>
-      <Methods>
-        <Method name="getNumber" returnType="int" visibility="public"/>
-        <Method name="getCategory" returnType="String" visibility="public"/>
-        <Method name="getName" returnType="String" visibility="public"/>
-        <Method name="getInput" returnType="String" visibility="public"/>
-        <Method name="getExpected" returnType="String" visibility="public"/>
-        <Method name="getObtained" returnType="String" visibility="public"/>
-        <Method name="isPassed" returnType="boolean" visibility="public"/>
-      </Methods>
-    </Class>
-    <Class name="ParkingCoto" package="" visibility="public" xPosition="950.0" yPosition="890.0">
-      <Fields/>
-      <Constructors/>
-      <Methods>
-        <Method name="main" returnType="void" visibility="public" isStatic="true">
-          <Argument type="String[]" name="args"/>
-        </Method>
-        <Method name="printText" returnType="void" visibility="private" isStatic="true">
-          <Argument type="List&lt;ScenarioResult&gt;" name="results"/>
-        </Method>
-        <Method name="printMarkdown" returnType="void" visibility="private" isStatic="true">
-          <Argument type="List&lt;ScenarioResult&gt;" name="results"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Enum name="VehicleType" package="" visibility="public" xPosition="1850.0" yPosition="100.0">
-      <Literals>
-        <Literal name="MOTORCYCLE"/>
-        <Literal name="CAR"/>
-        <Literal name="FREIGHT"/>
-      </Literals>
-    </Enum>
-    <Enum name="SpaceType" package="" visibility="public" xPosition="2420.0" yPosition="1410.0">
-      <Literals>
-        <Literal name="MOTORCYCLE"/>
-        <Literal name="CAR"/>
-        <Literal name="FREIGHT"/>
-      </Literals>
-    </Enum>
-    <Enum name="SpaceStatus" package="" visibility="public" xPosition="1770.0" yPosition="1670.0">
-      <Literals>
-        <Literal name="AVAILABLE"/>
-        <Literal name="OCCUPIED"/>
-        <Literal name="OUT_OF_SERVICE"/>
-      </Literals>
-    </Enum>
-    <Enum name="TicketStatus" package="" visibility="public" xPosition="680.0" yPosition="1670.0">
-      <Literals>
-        <Literal name="ACTIVE"/>
-        <Literal name="CLOSED"/>
-        <Literal name="PAID"/>
-      </Literals>
-    </Enum>
-    <Enum name="PaymentType" package="" visibility="public" xPosition="440.0" yPosition="1650.0">
-      <Literals>
-        <Literal name="CASH"/>
-        <Literal name="CARD"/>
-        <Literal name="SINPE_MOVIL"/>
-      </Literals>
-    </Enum>
-    <Class name="RuntimeException" package="" visibility="public" xPosition="765.0" yPosition="40.0">
-      <Fields/>
-      <Constructors/>
-      <Methods/>
-    </Class>
     <Class name="ParkingException" package="" visibility="public" xPosition="732.0" yPosition="210.0">
       <Fields/>
       <Constructors>
@@ -451,49 +349,87 @@
       </Constructors>
       <Methods/>
     </Class>
+    <Interface name="PricingPolicy" package="" visibility="public" xPosition="2870.0" yPosition="1070.0">
+      <Methods>
+        <Method name="calculate" returnType="double" visibility="public">
+          <Argument type="int" name="chargedHours"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Enum name="VehicleType" package="" visibility="public" xPosition="1850.0" yPosition="100.0">
+      <Literals>
+        <Literal name="MOTORCYCLE"/>
+        <Literal name="CAR"/>
+        <Literal name="FREIGHT"/>
+      </Literals>
+    </Enum>
+    <Enum name="SpaceType" package="" visibility="public" xPosition="2420.0" yPosition="1410.0">
+      <Literals>
+        <Literal name="MOTORCYCLE"/>
+        <Literal name="CAR"/>
+        <Literal name="FREIGHT"/>
+      </Literals>
+    </Enum>
+    <Enum name="SpaceStatus" package="" visibility="public" xPosition="1770.0" yPosition="1670.0">
+      <Literals>
+        <Literal name="AVAILABLE"/>
+        <Literal name="OCCUPIED"/>
+        <Literal name="OUT_OF_SERVICE"/>
+      </Literals>
+    </Enum>
+    <Enum name="TicketStatus" package="" visibility="public" xPosition="680.0" yPosition="1670.0">
+      <Literals>
+        <Literal name="ACTIVE"/>
+        <Literal name="CLOSED"/>
+        <Literal name="PAID"/>
+      </Literals>
+    </Enum>
+    <Enum name="PaymentType" package="" visibility="public" xPosition="440.0" yPosition="1650.0">
+      <Literals>
+        <Literal name="CASH"/>
+        <Literal name="CARD"/>
+        <Literal name="SINPE_MOVIL"/>
+      </Literals>
+    </Enum>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
+    <HasRelation name="vehicle" source="ParkingTicket" target="Vehicle" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="type" source="Vehicle" target="VehicleType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="Vehicle" target="SpaceType" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="RecordNotFoundException" target="ParkingException"/>
+    <HasRelation name="spaces" source="ParkingLot" target="ParkingSpace" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Map"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="Tariff" target="PricingPolicy"/>
     <IsRelation name="is" source="Car" target="Vehicle"/>
-    <IsRelation name="is" source="Motorcycle" target="Vehicle"/>
-    <IsRelation name="is" source="FreightVehicle" target="Vehicle"/>
-    <IsRelation name="is" source="ParkingException" target="RuntimeException"/>
-    <IsRelation name="is" source="SpaceNotAvailableException" target="ParkingException"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="DailyCapPolicy" target="PricingPolicy"/>
+    <UseRelation name="throws" source="ParkingLot" target="DuplicateRecordException" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="type" source="Payment" target="PaymentType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="throws" source="ParkingLot" target="ActiveTicketException" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="status" source="ParkingTicket" target="TicketStatus" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="ticket" source="Payment" target="ParkingTicket" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="tickets" source="ParkingLot" target="ParkingTicket" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List"/>
+    <HasRelation name="pricing" source="FreightVehicle" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <HasRelation name="pricing" source="Car" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="throws" source="ParkingTicket" target="InvalidTicketStateException" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="basePolicy" source="DailyCapPolicy" target="PricingPolicy" type="Aggregation" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="creates" source="Tariff" target="DailyCapPolicy" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="pricing" source="Motorcycle" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
+    <UseRelation name="throws" source="ParkingLot" target="SpaceNotAvailableException" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="status" source="ParkingSpace" target="SpaceStatus" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <HasRelation name="vehicles" source="ParkingLot" target="Vehicle" type="Aggregation" sourceCardinality="0..1" targetCardinality="0..*" collectionType="Map"/>
+    <HasRelation name="payments" source="ParkingLot" target="Payment" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List"/>
+    <IsRelation name="is" source="DuplicateRecordException" target="ParkingException"/>
+    <UseRelation name="throws" source="ParkingLot" target="RecordNotFoundException" sourceCardinality="1..1" targetCardinality="1..1"/>
     <IsRelation name="is" source="ActiveTicketException" target="ParkingException"/>
     <IsRelation name="is" source="InvalidTicketStateException" target="ParkingException"/>
-    <IsRelation name="is" source="DuplicateRecordException" target="ParkingException"/>
-    <IsRelation name="is" source="RecordNotFoundException" target="ParkingException"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="Tariff" target="PricingPolicy"/>
-    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="DailyCapPolicy" target="PricingPolicy"/>
-    <HasRelation name="vehicles" source="ParkingLot" target="Vehicle" type="Aggregation" sourceCardinality="0..1" targetCardinality="0..*" collectionType="Map"/>
-    <HasRelation name="spaces" source="ParkingLot" target="ParkingSpace" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="Map"/>
-    <HasRelation name="tickets" source="ParkingLot" target="ParkingTicket" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List"/>
-    <HasRelation name="payments" source="ParkingLot" target="Payment" type="Composition" sourceCardinality="1..1" targetCardinality="0..*" collectionType="List"/>
-    <HasRelation name="vehicle" source="ParkingTicket" target="Vehicle" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <HasRelation name="space" source="ParkingTicket" target="ParkingSpace" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <HasRelation name="ticket" source="Payment" target="ParkingTicket" type="Default" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <HasRelation name="pricing" source="Car" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <HasRelation name="pricing" source="Motorcycle" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <HasRelation name="pricing" source="FreightVehicle" target="PricingPolicy" type="Composition" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <HasRelation name="basePolicy" source="DailyCapPolicy" target="PricingPolicy" type="Aggregation" sourceCardinality="0..1" targetCardinality="1..1"/>
-    <HasRelation name="type" source="Vehicle" target="VehicleType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <HasRelation name="type" source="ParkingSpace" target="SpaceType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <HasRelation name="status" source="ParkingSpace" target="SpaceStatus" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <HasRelation name="status" source="ParkingTicket" target="TicketStatus" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <HasRelation name="type" source="Payment" target="PaymentType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="Vehicle" target="SpaceType" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="ParkingSpace" target="Vehicle" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation name="uses" source="Car" target="Tariff" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="Motorcycle" target="Vehicle"/>
     <UseRelation name="uses" source="Motorcycle" target="Tariff" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="FreightVehicle" target="Tariff" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="creates" source="Tariff" target="DailyCapPolicy" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="ParkingCoto" target="ScenarioRunner" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="uses" source="ScenarioRunner" target="ParkingLot" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="creates" source="ScenarioRunner" target="ScenarioResult" sourceCardinality="1..1" targetCardinality="1..*"/>
-    <UseRelation name="throws" source="ParkingTicket" target="InvalidTicketStateException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="throws" source="ParkingLot" target="DuplicateRecordException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="throws" source="ParkingLot" target="RecordNotFoundException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="throws" source="ParkingLot" target="ActiveTicketException" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation name="throws" source="ParkingLot" target="SpaceNotAvailableException" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="type" source="ParkingSpace" target="SpaceType" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
+    <UseRelation name="uses" source="ParkingSpace" target="Vehicle" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="space" source="ParkingTicket" target="ParkingSpace" type="Default" sourceCardinality="0..*" targetCardinality="1..1"/>
     <UseRelation name="throws" source="ParkingLot" target="InvalidTicketStateException" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="SpaceNotAvailableException" target="ParkingException"/>
+    <UseRelation name="uses" source="FreightVehicle" target="Tariff" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="FreightVehicle" target="Vehicle"/>
   </ClassDiagramRelations>
 </ClassDiagram>
